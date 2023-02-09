@@ -1,0 +1,429 @@
+package com.santanatextiles.domain;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
+public class PasseGeral implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private String idFil;
+	private String retorno;
+	private String numeroPasse;
+	private String obs1;
+	private String obs2;
+	private String obs3;
+	private String entradaSaida;
+	private String cdCCusto;
+	private String dsCCusto;
+	private String cdAutor;
+	private String dsAutor;
+	private String cdFornCli;
+	private String dsFornCli;
+	private String tpFornCli;
+	private String cdTransacao;
+	private String dsTransacao;
+	private String aprovador;
+	private String notaFiscal;
+	private String tipoTransporte;
+	private String placa;
+	private String cdTransportador;
+	private String dsTransportador;
+	private String cdPorteiro;
+	private String dsPorteiro;
+	private String cdAprovador;
+	private String dsAprovador;
+	private String tipoDocumento;
+	private String numDocumento;
+	private Date dataVerificacao;
+	private Date dataInclusao;
+	private Date dataPrevisaoRetorno;
+	private Date dataProrrogacao;
+	private String motivo;
+	private String horaVerificacao;
+	private String status;
+	private String portador;
+	private ArrayList<ItemPasseGeral> itensPasse;
+	
+	public PasseGeral() {
+		
+	}
+
+	public PasseGeral(String idFil, String retorno, String numeroPasse, String obs1, String obs2, String obs3,
+			String entradaSaida, String cdCCusto, String dsCCusto, String cdAutor, String dsAutor, String cdFornCli,
+			String dsFornCli, String tpFornCli, String cdTransacao, String dsTransacao, String aprovador,
+			String notaFiscal, String tipoTransporte, String placa, String cdTransportador, String dsTransportador,
+			String cdPorteiro, String dsPorteiro, String cdAprovador, String dsAprovador, String tipoDocumento,
+			String numDocumento, Date dataVerificacao, Date dataInclusao, Date dataPrevisaoRetorno,
+			Date dataProrrogacao, String motivo, String horaVerificacao, String status, String portador,
+			ArrayList<ItemPasseGeral> itensPasse) {
+		super();
+		this.idFil = idFil;
+		this.retorno = retorno;
+		this.numeroPasse = numeroPasse;
+		this.obs1 = obs1;
+		this.obs2 = obs2;
+		this.obs3 = obs3;
+		this.entradaSaida = entradaSaida;
+		this.cdCCusto = cdCCusto;
+		this.dsCCusto = dsCCusto;
+		this.cdAutor = cdAutor;
+		this.dsAutor = dsAutor;
+		this.cdFornCli = cdFornCli;
+		this.dsFornCli = dsFornCli;
+		this.tpFornCli = tpFornCli;
+		this.cdTransacao = cdTransacao;
+		this.dsTransacao = dsTransacao;
+		this.aprovador = aprovador;
+		this.notaFiscal = notaFiscal;
+		this.tipoTransporte = tipoTransporte;
+		this.placa = placa;
+		this.cdTransportador = cdTransportador;
+		this.dsTransportador = dsTransportador;
+		this.cdPorteiro = cdPorteiro;
+		this.dsPorteiro = dsPorteiro;
+		this.cdAprovador = cdAprovador;
+		this.dsAprovador = dsAprovador;
+		this.tipoDocumento = tipoDocumento;
+		this.numDocumento = numDocumento;
+		this.dataVerificacao = dataVerificacao;
+		this.dataInclusao = dataInclusao;
+		this.dataPrevisaoRetorno = dataPrevisaoRetorno;
+		this.dataProrrogacao = dataProrrogacao;
+		this.motivo = motivo;
+		this.horaVerificacao = horaVerificacao;
+		this.status = status;
+		this.portador = portador;
+		this.itensPasse = itensPasse;
+	}
+
+	public String getIdFil() {
+		return idFil;
+	}
+
+	public void setIdFil(String idFil) {
+		this.idFil = idFil;
+	}
+
+	public String getRetorno() {
+		return retorno;
+	}
+
+	public void setRetorno(String retorno) {
+		this.retorno = retorno;
+	}
+
+	public String getNumeroPasse() {
+		return numeroPasse;
+	}
+
+	public void setNumeroPasse(String numeroPasse) {
+		this.numeroPasse = numeroPasse;
+	}
+
+	public String getObs1() {
+		return obs1;
+	}
+
+	public void setObs1(String obs1) {
+		this.obs1 = obs1;
+	}
+
+	public String getObs2() {
+		return obs2;
+	}
+
+	public void setObs2(String obs2) {
+		this.obs2 = obs2;
+	}
+
+	public String getObs3() {
+		return obs3;
+	}
+
+	public void setObs3(String obs3) {
+		this.obs3 = obs3;
+	}
+
+	public String getEntradaSaida() {
+		return entradaSaida;
+	}
+
+	public void setEntradaSaida(String entradaSaida) {
+		this.entradaSaida = entradaSaida;
+	}
+
+	public String getCdCCusto() {
+		return cdCCusto;
+	}
+
+	public void setCdCCusto(String cdCCusto) {
+		this.cdCCusto = cdCCusto;
+	}
+
+	public String getDsCCusto() {
+		return dsCCusto;
+	}
+
+	public void setDsCCusto(String dsCCusto) {
+		this.dsCCusto = dsCCusto;
+	}
+
+	public String getCdAutor() {
+		return cdAutor;
+	}
+
+	public void setCdAutor(String cdAutor) {
+		this.cdAutor = cdAutor;
+	}
+
+	public String getDsAutor() {
+		return dsAutor;
+	}
+
+	public void setDsAutor(String dsAutor) {
+		this.dsAutor = dsAutor;
+	}
+
+	public String getCdFornCli() {
+		return cdFornCli;
+	}
+
+	public void setCdFornCli(String cdFornCli) {
+		this.cdFornCli = cdFornCli;
+	}
+
+	public String getDsFornCli() {
+		return dsFornCli;
+	}
+
+	public void setDsFornCli(String dsFornCli) {
+		this.dsFornCli = dsFornCli;
+	}
+
+	public String getTpFornCli() {
+		return tpFornCli;
+	}
+
+	public void setTpFornCli(String tpFornCli) {
+		this.tpFornCli = tpFornCli;
+	}
+
+	public String getCdTransacao() {
+		return cdTransacao;
+	}
+
+	public void setCdTransacao(String cdTransacao) {
+		this.cdTransacao = cdTransacao;
+	}
+
+	public String getDsTransacao() {
+		return dsTransacao;
+	}
+
+	public void setDsTransacao(String dsTransacao) {
+		this.dsTransacao = dsTransacao;
+	}
+
+	public String getAprovador() {
+		return aprovador;
+	}
+
+	public void setAprovador(String aprovador) {
+		this.aprovador = aprovador;
+	}
+
+	public String getNotaFiscal() {
+		return notaFiscal;
+	}
+
+	public void setNotaFiscal(String notaFiscal) {
+		this.notaFiscal = notaFiscal;
+	}
+
+	public String getTipoTransporte() {
+		return tipoTransporte;
+	}
+
+	public void setTipoTransporte(String tipoTransporte) {
+		this.tipoTransporte = tipoTransporte;
+	}
+
+	public String getPlaca() {
+		return placa;
+	}
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
+
+	public String getCdTransportador() {
+		return cdTransportador;
+	}
+
+	public void setCdTransportador(String cdTransportador) {
+		this.cdTransportador = cdTransportador;
+	}
+
+	public String getDsTransportador() {
+		return dsTransportador;
+	}
+
+	public void setDsTransportador(String dsTransportador) {
+		this.dsTransportador = dsTransportador;
+	}
+
+	public String getCdPorteiro() {
+		return cdPorteiro;
+	}
+
+	public void setCdPorteiro(String cdPorteiro) {
+		this.cdPorteiro = cdPorteiro;
+	}
+
+	public String getDsPorteiro() {
+		return dsPorteiro;
+	}
+
+	public void setDsPorteiro(String dsPorteiro) {
+		this.dsPorteiro = dsPorteiro;
+	}
+
+	public String getCdAprovador() {
+		return cdAprovador;
+	}
+
+	public void setCdAprovador(String cdAprovador) {
+		this.cdAprovador = cdAprovador;
+	}
+
+	public String getDsAprovador() {
+		return dsAprovador;
+	}
+
+	public void setDsAprovador(String dsAprovador) {
+		this.dsAprovador = dsAprovador;
+	}
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public String getNumDocumento() {
+		return numDocumento;
+	}
+
+	public void setNumDocumento(String numDocumento) {
+		this.numDocumento = numDocumento;
+	}
+
+	public Date getDataVerificacao() {
+		return dataVerificacao;
+	}
+
+	public void setDataVerificacao(Date dataVerificacao) {
+		this.dataVerificacao = dataVerificacao;
+	}
+
+	public Date getDataInclusao() {
+		return dataInclusao;
+	}
+
+	public void setDataInclusao(Date dataInclusao) {
+		this.dataInclusao = dataInclusao;
+	}
+
+	public Date getDataPrevisaoRetorno() {
+		return dataPrevisaoRetorno;
+	}
+
+	public void setDataPrevisaoRetorno(Date dataPrevisaoRetorno) {
+		this.dataPrevisaoRetorno = dataPrevisaoRetorno;
+	}
+
+	public Date getDataProrrogacao() {
+		return dataProrrogacao;
+	}
+
+	public void setDataProrrogacao(Date dataProrrogacao) {
+		this.dataProrrogacao = dataProrrogacao;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+
+	public String getHoraVerificacao() {
+		return horaVerificacao;
+	}
+
+	public void setHoraVerificacao(String horaVerificacao) {
+		this.horaVerificacao = horaVerificacao;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPortador() {
+		return portador;
+	}
+
+	public void setPortador(String portador) {
+		this.portador = portador;
+	}
+
+	public ArrayList<ItemPasseGeral> getItensPasse() {
+		return itensPasse;
+	}
+
+	public void setItensPasse(ArrayList<ItemPasseGeral> itensPasse) {
+		this.itensPasse = itensPasse;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idFil == null) ? 0 : idFil.hashCode());
+		result = prime * result + ((numeroPasse == null) ? 0 : numeroPasse.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PasseGeral other = (PasseGeral) obj;
+		if (idFil == null) {
+			if (other.idFil != null)
+				return false;
+		} else if (!idFil.equals(other.idFil))
+			return false;
+		if (numeroPasse == null) {
+			if (other.numeroPasse != null)
+				return false;
+		} else if (!numeroPasse.equals(other.numeroPasse))
+			return false;
+		return true;
+	}
+	
+
+}
