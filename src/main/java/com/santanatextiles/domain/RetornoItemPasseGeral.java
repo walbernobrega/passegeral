@@ -3,34 +3,54 @@ package com.santanatextiles.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="BALJ2",schema="BAL")
 public class RetornoItemPasseGeral implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Column(name="J2COD")
 	private String numeroPasse;
 	
+	@Column(name="J2ITEM")
 	private String codigoItem;
+	
 	
 	private String descricaoItem;
 	
+	@Column(name="J2DATA")
 	private Date dataRetorno;
 
+	@Column(name="J2HORA")
 	private String horaRetorno;
 
+	@Column(name="J2MATR")
 	private String codigoPorteiro;
 
 	private String dsPorteiro;
 
+	@Column(name="J2QTDE")
 	private Float qtdeRetornada;
 
+	@Column(name="J2NOTA")
 	private String notaFiscal;
 
+	@Column(name="J2NSERV")
 	private String notaServico;
 
+	@Column(name="J2STAT")
 	private String status;
 
+	@Column(name="J2VURE")
 	private Float pagamentoRetorno;
 
+	@Column(name="J2OBSV")
 	private String observacao;
 	
 	private String tipoOperacao;

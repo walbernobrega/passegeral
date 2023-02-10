@@ -2,12 +2,22 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="E0421_STL_MATERIAL",schema="STL")
 public class Item implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Column(name="D0421_ID_MATERIAL")
 	private String codigo;
 	
+	@Column(name="D0421_NOME")
 	private String descricao;
 	
 	public Item() {

@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.domain.UsuarioPasse;
 
 @RestController
-@RequestMapping(value="/usuariospasse")
+@RequestMapping(value="/usuariopasse")
 public class UsuarioPasseResource {
 
 	@RequestMapping(method=RequestMethod.GET)
 	public List<UsuarioPasse> listar() {
-
-		UsuarioPasse usuario1 = new UsuarioPasse("dalton","17071","dalton","1234","1234","1234","01",true);
-		UsuarioPasse usuario2 = new UsuarioPasse("EMENDES","30087","EDVANIA RIBEIRO MENDES","1234","1234","1234","01",true);
-		UsuarioPasse usuario3 = new UsuarioPasse("KBRUNO","27058","KASSIO BRUNO","1234","1234","1234","01",true);
+		
+		UsuarioPasse usuario1 = new UsuarioPasse("dalton","17071","dalton","1234","01");
+		UsuarioPasse usuario2 = new UsuarioPasse("EMENDES","30087","EDVANIA RIBEIRO MENDES","1234","01");
+		UsuarioPasse usuario3 = new UsuarioPasse("KBRUNO","27058","KASSIO BRUNO","1234","01");
 		
 		List<UsuarioPasse> lista =new ArrayList<>();
 		lista.add(usuario1);

@@ -2,20 +2,32 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
-public class ClienteFornecedor implements Serializable{
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="CCRB2_DBF",schema="CCR")
+public class Cliente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@Column(name="B2COD")
 	private String codigo;
+	@Column(name="B2NOME")
 	private String descricao;
+	@Column(name="B2PEFJ")
 	private String tipo;
+	@Column(name="B2CGCCPF")
 	private String cnpj;
 
-	public ClienteFornecedor() {
+	public Cliente() {
 		
 	}
 	
-	public ClienteFornecedor(String codigo, String descricao, String tipo, String cnpj) {
+	public Cliente(String codigo, String descricao, String tipo, String cnpj) {
 		super();
 		this.codigo = codigo;
 		this.descricao = descricao;
@@ -73,7 +85,7 @@ public class ClienteFornecedor implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ClienteFornecedor other = (ClienteFornecedor) obj;
+		Cliente other = (Cliente) obj;
 		if (cnpj == null) {
 			if (other.cnpj != null)
 				return false;

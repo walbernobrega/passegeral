@@ -4,32 +4,63 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="BALJ1_DBF", schema="BAL")
 public class ItemPasseGeral implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@Column(name="J1COD")
 	private String numeroPasse;
+	@Column(name="J1ITEM")
     private String cdItem;
+	
 	private String dsItem;
+	
 	private String dsCliFor;
+	@Column(name="J1DATA")
 	private Date dataInclusao;
+	@Column(name="J1HORA")
 	private String horaInclusao;
+	@Column(name="J1QTDE")
 	private Float quantidade;
+	@Column(name="J1UNID")
 	private String unidMed;
+	@Column(name="J1QTRET")
 	private Float qtdeRetorno;
+	@Column(name="J1SALDO")
 	private Float saldo;
+	@Column(name="J1PLIQ")
 	private Float pesoLiquido;
+	@Column(name="J1PBRU")
 	private Float pesoBruto;
+	@Column(name="J1VOLU")
 	private Integer numeroVolumes;
+	@Column(name="J1OBS1")
 	private String obs1;
+	@Column(name="J1OBS2")
 	private String obs2;
+	@Column(name="J1OBS3")
 	private String obs3;
+	@Column(name="J1PRUN")
 	private Float valorUnitario;
+	@Column(name="J1VUOR")
 	private Float valorOrcado;
+	
 	private String statusPasse;
+	
 	private String entradaSaida;
+	
 	private String retorno;
+	
 	private String operacao;
+	
 	private ArrayList<RetornoItemPasseGeral> retornoItemPasse;
 	
 	public ItemPasseGeral() {

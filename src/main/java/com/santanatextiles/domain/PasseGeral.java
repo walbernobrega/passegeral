@@ -4,46 +4,97 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+
+@Entity
+@Table(name="BALJ0_DBF", schema="BAL")
 public class PasseGeral implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Column(name="IDFIL")
 	private String idFil;
+	@Column(name="J0RETO")
 	private String retorno;
+	
+	@Id
+	@Column(name="J0COD")
 	private String numeroPasse;
+	@Column(name="J0OBS1")
 	private String obs1;
+	@Column(name="J0OBS2")
 	private String obs2;
+	@Column(name="J0OBS3")
 	private String obs3;
+	@Column(name="J0ENSA")
 	private String entradaSaida;
+	@Column(name="J0CECU")
 	private String cdCCusto;
+
 	private String dsCCusto;
+	
+	@Column(name="J0AUTOR")
 	private String cdAutor;
+	
 	private String dsAutor;
+	
+	@Column(name="J0DEST")
 	private String cdFornCli;
+	
 	private String dsFornCli;
+	
+	@Column(name="J0TPDEST")
 	private String tpFornCli;
+	
+	@Column(name="J0TRSA")
 	private String cdTransacao;
+	
 	private String dsTransacao;
+
 	private String aprovador;
+	@Column(name="J0NOTA")
 	private String notaFiscal;
+	@Column(name="J0PTFN")
 	private String tipoTransporte;
+	@Column(name="J0PLAC")
 	private String placa;
+	@Column(name="J0TRAN")
 	private String cdTransportador;
+	
 	private String dsTransportador;
+	@Column(name="J0PORT")
 	private String cdPorteiro;
+	
 	private String dsPorteiro;
+	@Column(name="J0GEREN")
 	private String cdAprovador;
+	
 	private String dsAprovador;
+	@Column(name="J0TPDC")
 	private String tipoDocumento;
+	@Column(name="J0DOCT")
 	private String numDocumento;
+	@Column(name="J0DATA")
 	private Date dataVerificacao;
+	@Column(name="J0DTIN")
 	private Date dataInclusao;
+	@Column(name="J0RETORNO")
 	private Date dataPrevisaoRetorno;
+	@Column(name="J0PRORROGA")
 	private Date dataProrrogacao;
+	@Column(name="J0MOTIVO")
 	private String motivo;
+	@Column(name="J0HORA")
 	private String horaVerificacao;
+	@Column(name="J0STAT")
 	private String status;
+	@Column(name="J0PORTADOR")
 	private String portador;
+	
 	private ArrayList<ItemPasseGeral> itensPasse;
 	
 	public PasseGeral() {

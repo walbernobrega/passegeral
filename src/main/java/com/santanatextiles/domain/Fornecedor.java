@@ -8,30 +8,33 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="BALF6",schema="BAL")
-public class Transacao implements Serializable{
+@Table(name="CCPB2_DBF",schema="CCP")
+public class Fornecedor implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name="F6COD")
+	@Column(name="B2COD")
 	private String codigo;
-	@Column(name="F6DESC")
+	@Column(name="B2NOME")
 	private String descricao;
-	@Column(name="F6GEREN")
-	private String gerente;
-	
-	public Transacao() {
+	@Column(name="B2TIPO")
+	private String tipo;
+	@Column(name="B2CGCCPF")
+	private String cnpj;
+
+	public Fornecedor() {
 		
 	}
-
-	public Transacao(String codigo, String descricao, String gerente) {
+	
+	public Fornecedor(String codigo, String descricao, String tipo, String cnpj) {
 		super();
 		this.codigo = codigo;
 		this.descricao = descricao;
-		this.gerente = gerente;
+		this.tipo = tipo;
+		this.cnpj = cnpj;
 	}
-
+	
 	public String getCodigo() {
 		return codigo;
 	}
@@ -48,18 +51,28 @@ public class Transacao implements Serializable{
 		this.descricao = descricao;
 	}
 
-	public String getGerente() {
-		return gerente;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setGerente(String gerente) {
-		this.gerente = gerente;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cnpj == null) ? 0 : cnpj.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
@@ -72,7 +85,12 @@ public class Transacao implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Transacao other = (Transacao) obj;
+		Fornecedor other = (Fornecedor) obj;
+		if (cnpj == null) {
+			if (other.cnpj != null)
+				return false;
+		} else if (!cnpj.equals(other.cnpj))
+			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
@@ -80,7 +98,7 @@ public class Transacao implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 	
 
 }

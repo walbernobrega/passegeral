@@ -2,11 +2,21 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="BALB2_DBF",schema="BAL")
 public class Transportadora implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@Column(name="B2COD")
 	private String codigo;
+	@Column(name="B2NOME")
 	private String descricao ;
 	
 	public Transportadora() {

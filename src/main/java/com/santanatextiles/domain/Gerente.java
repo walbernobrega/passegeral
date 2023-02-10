@@ -8,38 +8,41 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="SPCD4_DBF",schema="SPC")
-public class UsuarioPasse implements Serializable {
+@Table(name="SPCC3_DBF",schema="SPC")
+public class Gerente implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="D4MATR")
+	@Column(name="C3MATR")
 	private String matricula;
 	
-	@Column(name="D4APELI")
+	@Column(name="C3APELI")
 	private String login;
 	
-	@Column(name="D4NOME")
+	@Column(name="C3NOME")
 	private String nome;
 
-	@Column(name="D4SENHA")
+	@Column(name="C3SENHA")
 	private String senha;
-	
+
 	@Column(name="IDFIL")
 	private String empresa;
 	
-	public UsuarioPasse() {
+	private boolean prorrogador;
+	
+	public Gerente() {
 		
 	}
 
-	public UsuarioPasse(String login, String matricula, String nome, String senha,String empresa) {
+	public Gerente(String login, String matricula, String nome, String senha, String empresa, boolean prorrogador) {
 		super();
 		this.login = login;
 		this.matricula = matricula;
 		this.nome = nome;
 		this.senha = senha;
 		this.empresa = empresa;
+		this.prorrogador = prorrogador;
 	}
 
 	public String getLogin() {
@@ -71,7 +74,7 @@ public class UsuarioPasse implements Serializable {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha= senha;
 	}
 
 	public String getEmpresa() {
@@ -80,6 +83,14 @@ public class UsuarioPasse implements Serializable {
 
 	public void setEmpresa(String empresa) {
 		this.empresa = empresa;
+	}
+
+	public boolean isProrrogador() {
+		return prorrogador;
+	}
+
+	public void setProrrogador(boolean prorrogador) {
+		this.prorrogador = prorrogador;
 	}
 
 	@Override
@@ -99,7 +110,7 @@ public class UsuarioPasse implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsuarioPasse other = (UsuarioPasse) obj;
+		Gerente other = (Gerente) obj;
 		if (empresa == null) {
 			if (other.empresa != null)
 				return false;

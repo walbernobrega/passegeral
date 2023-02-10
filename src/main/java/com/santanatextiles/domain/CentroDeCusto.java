@@ -2,11 +2,21 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="SCED4_DBF", schema="SCE")
 public class CentroDeCusto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@Column(name="D4COD")
 	private String codigo;
+	@Column(name="D4DESC")
 	private String descricao;
 	
 	public CentroDeCusto() {

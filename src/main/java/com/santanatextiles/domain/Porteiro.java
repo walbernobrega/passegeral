@@ -8,56 +8,44 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="SPCD4_DBF",schema="SPC")
-public class UsuarioPasse implements Serializable {
+@Table(name="BALE5_DBF",schema="BAL")
+public class Porteiro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="D4MATR")
-	private String matricula;
+	@Column(name="E5COD")
+	private String codigo;
 	
-	@Column(name="D4APELI")
-	private String login;
-	
-	@Column(name="D4NOME")
+	@Column(name="E5NOME")
 	private String nome;
 
-	@Column(name="D4SENHA")
+	@Column(name="E5SENHA")
 	private String senha;
-	
+
 	@Column(name="IDFIL")
 	private String empresa;
 	
-	public UsuarioPasse() {
+	public Porteiro() {
 		
 	}
 
-	public UsuarioPasse(String login, String matricula, String nome, String senha,String empresa) {
+	public Porteiro(String codigo, String nome, String senha, String empresa) {
 		super();
-		this.login = login;
-		this.matricula = matricula;
+		this.codigo = codigo;
 		this.nome = nome;
 		this.senha = senha;
 		this.empresa = empresa;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
-	public String getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
-	
 	public String getNome() {
 		return nome;
 	}
@@ -71,7 +59,7 @@ public class UsuarioPasse implements Serializable {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha= senha;
 	}
 
 	public String getEmpresa() {
@@ -87,7 +75,7 @@ public class UsuarioPasse implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
 
@@ -99,16 +87,16 @@ public class UsuarioPasse implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsuarioPasse other = (UsuarioPasse) obj;
+		Porteiro other = (Porteiro) obj;
 		if (empresa == null) {
 			if (other.empresa != null)
 				return false;
 		} else if (!empresa.equals(other.empresa))
 			return false;
-		if (login == null) {
-			if (other.login != null)
+		if (codigo == null) {
+			if (other.codigo != null)
 				return false;
-		} else if (!login.equals(other.login))
+		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
 	}

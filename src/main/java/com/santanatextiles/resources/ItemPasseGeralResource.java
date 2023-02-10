@@ -13,7 +13,7 @@ import com.santanatextiles.domain.RetornoItemPasseGeral;
 
 @RestController
 @RequestMapping(value="/itempassegeral")
-public class ResourceItemPasseGeral {
+public class ItemPasseGeralResource {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ArrayList<ItemPasseGeral> listar() throws NumberFormatException, ParseException {
