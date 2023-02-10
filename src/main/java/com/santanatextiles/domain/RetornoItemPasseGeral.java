@@ -6,22 +6,30 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
-@Table(name="BALJ2",schema="BAL")
+@Table(name="BALJ2_DBF",schema="BAL")
+@IdClass(RetornoItemPasseGeralId.class)
 public class RetornoItemPasseGeral implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name="IDFIL")
+	private String idfil;
+	
+	@Id
 	@Column(name="J2COD")
 	private String numeroPasse;
 	
+	@Id
 	@Column(name="J2ITEM")
 	private String codigoItem;
 	
-	
+	@Transient
 	private String descricaoItem;
 	
 	@Column(name="J2DATA")
@@ -33,6 +41,7 @@ public class RetornoItemPasseGeral implements Serializable{
 	@Column(name="J2MATR")
 	private String codigoPorteiro;
 
+	@Transient
 	private String dsPorteiro;
 
 	@Column(name="J2QTDE")
@@ -53,16 +62,18 @@ public class RetornoItemPasseGeral implements Serializable{
 	@Column(name="J2OBSV")
 	private String observacao;
 	
+	@Transient
 	private String tipoOperacao;
 
 	public RetornoItemPasseGeral() {
 		
 	}
 
-	public RetornoItemPasseGeral(String numeroPasse, String codigoItem, String descricaoItem, Date dataRetorno, String horaRetorno,
+	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, String descricaoItem, Date dataRetorno, String horaRetorno,
 			String codigoPorteiro, String dsPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico,
 			String status, Float pagamentoRetorno, String observacao, String tipoOperacao) {
 		super();
+		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
 		this.codigoItem = codigoItem;
 		this.descricaoItem = descricaoItem;
@@ -77,6 +88,15 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.pagamentoRetorno = pagamentoRetorno;
 		this.observacao = observacao;
 		this.tipoOperacao = tipoOperacao;
+	}
+
+	
+	public String getIdfil() {
+		return idfil;
+	}
+
+	public void setIdfil(String idfil) {
+		this.idfil = idfil;
 	}
 
 	public String getNumeroPasse() {
@@ -183,11 +203,20 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.tipoOperacao = tipoOperacao;
 	}
 
+	public String getDescricaoItem() {
+		return descricaoItem;
+	}
+
+	public void setDescricaoItem(String descricaoItem) {
+		this.descricaoItem = descricaoItem;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigoItem == null) ? 0 : codigoItem.hashCode());
+		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
 		result = prime * result + ((numeroPasse == null) ? 0 : numeroPasse.hashCode());
 		return result;
 	}
@@ -206,20 +235,17 @@ public class RetornoItemPasseGeral implements Serializable{
 				return false;
 		} else if (!codigoItem.equals(other.codigoItem))
 			return false;
+		if (idfil == null) {
+			if (other.idfil != null)
+				return false;
+		} else if (!idfil.equals(other.idfil))
+			return false;
 		if (numeroPasse == null) {
 			if (other.numeroPasse != null)
 				return false;
 		} else if (!numeroPasse.equals(other.numeroPasse))
 			return false;
 		return true;
-	}
-
-	public String getDescricaoItem() {
-		return descricaoItem;
-	}
-
-	public void setDescricaoItem(String descricaoItem) {
-		this.descricaoItem = descricaoItem;
 	}
 	
 	

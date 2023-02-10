@@ -5,14 +5,20 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="BALE5_DBF",schema="BAL")
+@IdClass(PorteiroId.class)
 public class Porteiro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Column(name="IDFIL")
+	private String idfil;
+	
 	@Id
 	@Column(name="E5COD")
 	private String codigo;
@@ -23,19 +29,24 @@ public class Porteiro implements Serializable {
 	@Column(name="E5SENHA")
 	private String senha;
 
-	@Column(name="IDFIL")
-	private String empresa;
-	
 	public Porteiro() {
 		
 	}
 
-	public Porteiro(String codigo, String nome, String senha, String empresa) {
+	public Porteiro(String idfil, String codigo, String nome, String senha) {
 		super();
+		this.idfil = idfil;
 		this.codigo = codigo;
 		this.nome = nome;
 		this.senha = senha;
-		this.empresa = empresa;
+	}
+	
+	public String getIdfil() {
+		return idfil;
+	}
+
+	public void setIdfil(String idfil) {
+		this.idfil = idfil;
 	}
 
 	public String getCodigo() {
@@ -62,20 +73,12 @@ public class Porteiro implements Serializable {
 		this.senha= senha;
 	}
 
-	public String getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
 		return result;
 	}
 
@@ -88,15 +91,15 @@ public class Porteiro implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Porteiro other = (Porteiro) obj;
-		if (empresa == null) {
-			if (other.empresa != null)
-				return false;
-		} else if (!empresa.equals(other.empresa))
-			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (idfil == null) {
+			if (other.idfil != null)
+				return false;
+		} else if (!idfil.equals(other.idfil))
 			return false;
 		return true;
 	}

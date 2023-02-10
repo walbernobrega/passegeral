@@ -7,23 +7,29 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 
 @Entity
 @Table(name="BALJ0_DBF", schema="BAL")
+@IdClass(PasseGeralId.class)
 public class PasseGeral implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
 	@Column(name="IDFIL")
-	private String idFil;
-	@Column(name="J0RETO")
-	private String retorno;
-	
+	private String idfil;
+
 	@Id
 	@Column(name="J0COD")
 	private String numeroPasse;
+	
+	@Column(name="J0RETO")
+	private String retorno;
+	
 	@Column(name="J0OBS1")
 	private String obs1;
 	@Column(name="J0OBS2")
@@ -35,16 +41,19 @@ public class PasseGeral implements Serializable{
 	@Column(name="J0CECU")
 	private String cdCCusto;
 
+	@Transient
 	private String dsCCusto;
 	
 	@Column(name="J0AUTOR")
 	private String cdAutor;
 	
+	@Transient
 	private String dsAutor;
 	
 	@Column(name="J0DEST")
 	private String cdFornCli;
 	
+	@Transient
 	private String dsFornCli;
 	
 	@Column(name="J0TPDEST")
@@ -53,55 +62,77 @@ public class PasseGeral implements Serializable{
 	@Column(name="J0TRSA")
 	private String cdTransacao;
 	
+	@Transient
 	private String dsTransacao;
 
+	@Transient
 	private String aprovador;
+	
 	@Column(name="J0NOTA")
 	private String notaFiscal;
+	
 	@Column(name="J0PTFN")
 	private String tipoTransporte;
+	
 	@Column(name="J0PLAC")
 	private String placa;
+	
 	@Column(name="J0TRAN")
 	private String cdTransportador;
 	
+	@Transient
 	private String dsTransportador;
+	
 	@Column(name="J0PORT")
 	private String cdPorteiro;
 	
+	@Transient
 	private String dsPorteiro;
+	
 	@Column(name="J0GEREN")
 	private String cdAprovador;
 	
+	@Transient
 	private String dsAprovador;
+	
 	@Column(name="J0TPDC")
 	private String tipoDocumento;
+	
 	@Column(name="J0DOCT")
 	private String numDocumento;
+	
 	@Column(name="J0DATA")
 	private Date dataVerificacao;
+	
 	@Column(name="J0DTIN")
 	private Date dataInclusao;
+	
 	@Column(name="J0RETORNO")
 	private Date dataPrevisaoRetorno;
+	
 	@Column(name="J0PRORROGA")
 	private Date dataProrrogacao;
+	
 	@Column(name="J0MOTIVO")
 	private String motivo;
+	
 	@Column(name="J0HORA")
 	private String horaVerificacao;
+	
 	@Column(name="J0STAT")
 	private String status;
+	
 	@Column(name="J0PORTADOR")
 	private String portador;
 	
+	@Transient
 	private ArrayList<ItemPasseGeral> itensPasse;
 	
 	public PasseGeral() {
 		
 	}
 
-	public PasseGeral(String idFil, String retorno, String numeroPasse, String obs1, String obs2, String obs3,
+	public PasseGeral(String idfil, String retorno, String numeroPasse, String obs1, String obs2, String obs3,
 			String entradaSaida, String cdCCusto, String dsCCusto, String cdAutor, String dsAutor, String cdFornCli,
 			String dsFornCli, String tpFornCli, String cdTransacao, String dsTransacao, String aprovador,
 			String notaFiscal, String tipoTransporte, String placa, String cdTransportador, String dsTransportador,
@@ -110,7 +141,7 @@ public class PasseGeral implements Serializable{
 			Date dataProrrogacao, String motivo, String horaVerificacao, String status, String portador,
 			ArrayList<ItemPasseGeral> itensPasse) {
 		super();
-		this.idFil = idFil;
+		this.idfil = idfil;
 		this.retorno = retorno;
 		this.numeroPasse = numeroPasse;
 		this.obs1 = obs1;
@@ -149,12 +180,12 @@ public class PasseGeral implements Serializable{
 		this.itensPasse = itensPasse;
 	}
 
-	public String getIdFil() {
-		return idFil;
+	public String getIdfil() {
+		return idfil;
 	}
 
-	public void setIdFil(String idFil) {
-		this.idFil = idFil;
+	public void setIdfil(String idfil) {
+		this.idfil = idfil;
 	}
 
 	public String getRetorno() {
@@ -449,7 +480,7 @@ public class PasseGeral implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idFil == null) ? 0 : idFil.hashCode());
+		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
 		result = prime * result + ((numeroPasse == null) ? 0 : numeroPasse.hashCode());
 		return result;
 	}
@@ -463,10 +494,10 @@ public class PasseGeral implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		PasseGeral other = (PasseGeral) obj;
-		if (idFil == null) {
-			if (other.idFil != null)
+		if (idfil == null) {
+			if (other.idfil != null)
 				return false;
-		} else if (!idFil.equals(other.idFil))
+		} else if (!idfil.equals(other.idfil))
 			return false;
 		if (numeroPasse == null) {
 			if (other.numeroPasse != null)

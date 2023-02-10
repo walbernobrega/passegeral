@@ -1,29 +1,29 @@
 package com.santanatextiles.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.domain.Transportadora;
+import com.santanatextiles.services.TransportadoraService;
 
 @RestController
 @RequestMapping(value="/transportadora")
 public class TransportadoraResource {
 
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Transportadora> listar() {
-		Transportadora tr1 = new Transportadora("0000","SEM TRANSPORTADORA");
-		Transportadora tr2 = new Transportadora("0019","ANTENOR TRANSPORTES");
+	@Autowired
+	private TransportadoraService service; 
+	
+	@RequestMapping(value="/{codigo}", method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
-		ArrayList<Transportadora> lista = new ArrayList<>();
+		Transportadora obj = service.buscar(codigo);
 		
-		lista.add(tr1);
-		lista.add(tr2);
-		
-		return lista;
+		return ResponseEntity.ok().body(obj);
 		
 	}
+
 }

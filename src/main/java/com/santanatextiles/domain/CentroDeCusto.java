@@ -5,17 +5,24 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="SCED4_DBF", schema="SCE")
+@IdClass(CentroDeCustoId.class)
 public class CentroDeCusto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="IDFIL")
+	private String idfil;
 	
 	@Id
 	@Column(name="D4COD")
 	private String codigo;
+	
 	@Column(name="D4DESC")
 	private String descricao;
 	
@@ -28,6 +35,15 @@ public class CentroDeCusto implements Serializable{
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
+	
+	public String getIdfil() {
+		return idfil;
+	}
+
+	public void setIdfil(String idfil) {
+		this.idfil = idfil;
+	}
+
 
 	public String getCodigo() {
 		return codigo;
@@ -50,6 +66,7 @@ public class CentroDeCusto implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
 		return result;
 	}
 
@@ -67,7 +84,13 @@ public class CentroDeCusto implements Serializable{
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		if (idfil == null) {
+			if (other.idfil != null)
+				return false;
+		} else if (!idfil.equals(other.idfil))
+			return false;
 		return true;
 	}
 
+	
 }

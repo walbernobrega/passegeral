@@ -1,31 +1,28 @@
 package com.santanatextiles.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.domain.Cliente;
+import com.santanatextiles.services.ClienteService;
 
 @RestController
 @RequestMapping(value="/cliente")
 public class ClienteResource {
+
+	@Autowired
+	private ClienteService service; 
 	
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Cliente> listar() {
+	@RequestMapping(value="/{codigo}", method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
-		Cliente cf1 = new Cliente("28010","THIAGO MOREIRA E SILVA ME","J","10379861000186");
-		Cliente cf2 = new Cliente("14173","NOVA FIACAO INDUSTRIA TEXTIL S/A","J","18067083000100");
+		Cliente obj = service.buscar(codigo);
 		
-		ArrayList<Cliente> lista = new ArrayList<>();
-		
-		lista.add(cf1);
-		lista.add(cf2);
-		
-		return lista;
+		return ResponseEntity.ok().body(obj);
 		
 	}
 

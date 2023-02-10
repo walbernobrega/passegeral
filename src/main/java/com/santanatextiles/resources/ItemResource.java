@@ -1,29 +1,29 @@
 package com.santanatextiles.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.domain.Item;
+import com.santanatextiles.services.ItemService;
 
 @RestController
 @RequestMapping(value="/item")
 public class ItemResource {
 
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Item> listar() {
+	@Autowired
+	private ItemService service; 
+	
+	@RequestMapping(value="/{codigo}", method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Long codigo) {
 		
-		Item it1 = new Item("999999","PRENSA EM ALUMINIO C/ REGUA DE MAD 200");
-		Item it2 = new Item("111111","CALÇAS CRUAS /P LÉO LASER");
+		Item obj = service.buscar(codigo);
 		
-		ArrayList<Item> lista = new ArrayList<>();
-		lista.add(it1);
-		lista.add(it2);
-		
-		return lista;
+		return ResponseEntity.ok().body(obj);
 		
 	}
+
 }

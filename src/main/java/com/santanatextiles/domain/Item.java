@@ -5,17 +5,23 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="E0421_STL_MATERIAL",schema="STL")
+@IdClass(ItemId.class)
 public class Item implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name="D0003_ID_LOCALIZACAO")
+	private Long localizacao;
+	
+	@Id
 	@Column(name="D0421_ID_MATERIAL")
-	private String codigo;
+	private Long codigo;
 	
 	@Column(name="D0421_NOME")
 	private String descricao;
@@ -24,17 +30,27 @@ public class Item implements Serializable{
 		
 	}
 
-	public Item(String codigo, String descricao) {
+	public Item(Long localizacao, Long codigo, String descricao) {
 		super();
+		this.localizacao = localizacao;
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
 
-	public String getCodigo() {
+	
+	public Long getLocalizacao() {
+		return localizacao;
+	}
+
+	public void setLocalizacao(Long localizacao) {
+		this.localizacao = localizacao;
+	}
+
+	public Long getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
@@ -51,6 +67,7 @@ public class Item implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
 		return result;
 	}
 
@@ -68,9 +85,13 @@ public class Item implements Serializable{
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		if (localizacao == null) {
+			if (other.localizacao != null)
+				return false;
+		} else if (!localizacao.equals(other.localizacao))
+			return false;
 		return true;
 	}
-	
-	
+
 
 }

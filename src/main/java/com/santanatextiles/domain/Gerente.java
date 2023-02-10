@@ -5,14 +5,20 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="SPCC3_DBF",schema="SPC")
+@IdClass(GerenteId.class)
 public class Gerente implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Column(name="IDFIL")
+	private String idfil;
+	
 	@Id
 	@Column(name="C3MATR")
 	private String matricula;
@@ -25,24 +31,34 @@ public class Gerente implements Serializable {
 
 	@Column(name="C3SENHA")
 	private String senha;
-
-	@Column(name="IDFIL")
-	private String empresa;
-	
-	private boolean prorrogador;
 	
 	public Gerente() {
 		
 	}
 
-	public Gerente(String login, String matricula, String nome, String senha, String empresa, boolean prorrogador) {
+	public Gerente(String idfil, String matricula, String nome, String login, String senha) {
 		super();
-		this.login = login;
+		this.idfil = idfil;
 		this.matricula = matricula;
 		this.nome = nome;
+		this.login = login;
 		this.senha = senha;
-		this.empresa = empresa;
-		this.prorrogador = prorrogador;
+	}
+
+	public String getIdfil() {
+		return idfil;
+	}
+
+	public void setIdfil(String idfil) {
+		this.idfil = idfil;
+	}
+	
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
 	}
 
 	public String getLogin() {
@@ -53,14 +69,6 @@ public class Gerente implements Serializable {
 		this.login = login;
 	}
 
-	public String getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
-	
 	public String getNome() {
 		return nome;
 	}
@@ -77,28 +85,12 @@ public class Gerente implements Serializable {
 		this.senha= senha;
 	}
 
-	public String getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
-	}
-
-	public boolean isProrrogador() {
-		return prorrogador;
-	}
-
-	public void setProrrogador(boolean prorrogador) {
-		this.prorrogador = prorrogador;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
+		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
 		return result;
 	}
 
@@ -111,18 +103,17 @@ public class Gerente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Gerente other = (Gerente) obj;
-		if (empresa == null) {
-			if (other.empresa != null)
+		if (idfil == null) {
+			if (other.idfil != null)
 				return false;
-		} else if (!empresa.equals(other.empresa))
+		} else if (!idfil.equals(other.idfil))
 			return false;
-		if (login == null) {
-			if (other.login != null)
+		if (matricula == null) {
+			if (other.matricula != null)
 				return false;
-		} else if (!login.equals(other.login))
+		} else if (!matricula.equals(other.matricula))
 			return false;
 		return true;
 	}
 
-	
 }

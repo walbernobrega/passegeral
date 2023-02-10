@@ -3,32 +3,29 @@ package com.santanatextiles.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.domain.CentroDeCusto;
+import com.santanatextiles.services.CentroDeCustoService;
 
 @RestController
 @RequestMapping(value="/centrodecusto")
 public class CentroDeCustoResource {
+
+	@Autowired
+	private CentroDeCustoService service; 
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public List<CentroDeCusto> listar() {
+	@RequestMapping(value="/{codigo}", method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
-		CentroDeCusto cc1 = new CentroDeCusto("00115","INFORMATICA");
-		CentroDeCusto cc2 = new CentroDeCusto("00112","PESSOAL");
-		CentroDeCusto cc3 = new CentroDeCusto("00171","TEARES III -TOYOTA II(ANTIGO VAMATEX)");
-		CentroDeCusto cc4 = new CentroDeCusto("00223","APOIO ADM./MANUTENCAO ELETRICA-FIACAO");
+		CentroDeCusto obj = service.buscar(codigo);
 		
-		List<CentroDeCusto> lista = new ArrayList<>();
-		
-		lista.add(cc1);
-		lista.add(cc2);
-		lista.add(cc3);
-		lista.add(cc4);
-		
-		return lista;
+		return ResponseEntity.ok().body(obj);
 		
 	}
 

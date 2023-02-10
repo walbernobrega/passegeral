@@ -7,74 +7,105 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="BALJ1_DBF", schema="BAL")
+@IdClass(ItemPasseGeralId.class)
 public class ItemPasseGeral implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(name="IDFIL")
+	private String idfil;
+	
+	@Id
 	@Column(name="J1COD")
 	private String numeroPasse;
-	@Column(name="J1ITEM")
-    private String cdItem;
 	
+	@Id
+	@Column(name="J1ITEM")
+    private String codigoItem;
+	
+	@Transient
 	private String dsItem;
 	
+	@Transient
 	private String dsCliFor;
+	
 	@Column(name="J1DATA")
 	private Date dataInclusao;
+	
 	@Column(name="J1HORA")
 	private String horaInclusao;
+	
 	@Column(name="J1QTDE")
 	private Float quantidade;
+	
 	@Column(name="J1UNID")
 	private String unidMed;
+	
 	@Column(name="J1QTRET")
 	private Float qtdeRetorno;
+	
 	@Column(name="J1SALDO")
 	private Float saldo;
+	
 	@Column(name="J1PLIQ")
 	private Float pesoLiquido;
+	
 	@Column(name="J1PBRU")
 	private Float pesoBruto;
+	
 	@Column(name="J1VOLU")
 	private Integer numeroVolumes;
+	
 	@Column(name="J1OBS1")
 	private String obs1;
+	
 	@Column(name="J1OBS2")
 	private String obs2;
+	
 	@Column(name="J1OBS3")
 	private String obs3;
+	
 	@Column(name="J1PRUN")
 	private Float valorUnitario;
+	
 	@Column(name="J1VUOR")
 	private Float valorOrcado;
 	
+	@Transient
 	private String statusPasse;
 	
+	@Transient
 	private String entradaSaida;
 	
+	@Transient
 	private String retorno;
 	
+	@Transient
 	private String operacao;
 	
+	@Transient
 	private ArrayList<RetornoItemPasseGeral> retornoItemPasse;
 	
 	public ItemPasseGeral() {
 		
 	}
 
-	public ItemPasseGeral(String numeroPasse, String cdItem,
+	public ItemPasseGeral(String idfil, String numeroPasse, String codigoItem,
 			String dsItem, String dsCliFor, Date dataInclusao, String horaInclusao, Float quantidade, String unidMed,
 			Float qtdeRetorno, Float saldo, Float pesoLiquido, Float pesoBruto, Integer numeroVolumes, String obs1,
 			String obs2, String obs3, Float valorUnitario, Float valorOrcado, String statusPasse, String entradaSaida,
 			String retorno, String operacao,ArrayList<RetornoItemPasseGeral> retornoItemPasse) {
 		super();
+		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
-		this.cdItem = cdItem;
+		this.codigoItem = codigoItem;
 		this.dsItem = dsItem;
 		this.dsCliFor = dsCliFor;
 		this.dataInclusao = dataInclusao;
@@ -101,6 +132,14 @@ public class ItemPasseGeral implements Serializable{
 	public ArrayList<RetornoItemPasseGeral> getRetornoItemPasse() {
 		return retornoItemPasse;
 	}
+	
+	public String getIdfil() {
+		return idfil;
+	}
+
+	public void setIdfil(String idfil) {
+		this.idfil = idfil;
+	}
 
 	public void setRetornoItemPasse(ArrayList<RetornoItemPasseGeral> retornoItemPasse) {
 		this.retornoItemPasse = retornoItemPasse;
@@ -115,11 +154,11 @@ public class ItemPasseGeral implements Serializable{
 	}
 
 	public String getCdItem() {
-		return cdItem;
+		return codigoItem;
 	}
 
-	public void setCdItem(String cdItem) {
-		this.cdItem = cdItem;
+	public void setCdItem(String codigoItem) {
+		this.codigoItem = codigoItem;
 	}
 
 	public String getDsItem() {
@@ -286,7 +325,8 @@ public class ItemPasseGeral implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cdItem == null) ? 0 : cdItem.hashCode());
+		result = prime * result + ((codigoItem == null) ? 0 : codigoItem.hashCode());
+		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
 		result = prime * result + ((numeroPasse == null) ? 0 : numeroPasse.hashCode());
 		return result;
 	}
@@ -300,10 +340,15 @@ public class ItemPasseGeral implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPasseGeral other = (ItemPasseGeral) obj;
-		if (cdItem == null) {
-			if (other.cdItem != null)
+		if (codigoItem == null) {
+			if (other.codigoItem != null)
 				return false;
-		} else if (!cdItem.equals(other.cdItem))
+		} else if (!codigoItem.equals(other.codigoItem))
+			return false;
+		if (idfil == null) {
+			if (other.idfil != null)
+				return false;
+		} else if (!idfil.equals(other.idfil))
 			return false;
 		if (numeroPasse == null) {
 			if (other.numeroPasse != null)
@@ -312,7 +357,7 @@ public class ItemPasseGeral implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 	
 
 }
