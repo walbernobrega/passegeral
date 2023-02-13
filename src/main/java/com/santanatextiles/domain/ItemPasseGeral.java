@@ -117,7 +117,7 @@ public class ItemPasseGeral implements Serializable{
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumns({
 	    @JoinColumn(name="idfil", referencedColumnName="D0003_ID_LOCALIZACAO", insertable = false, updatable = false),
-	    @JoinColumn(name="j1item", referencedColumnName="D0421_ID_MATERIAL", insertable = false, updatable = false)
+	    @JoinColumn(name="j1item", referencedColumnName="D0422_ID_ITEM", insertable = false, updatable = false)
 	})
 	private Item item;
 
