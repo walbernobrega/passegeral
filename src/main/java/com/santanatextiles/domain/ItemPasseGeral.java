@@ -3,11 +3,23 @@ package com.santanatextiles.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -30,7 +42,7 @@ public class ItemPasseGeral implements Serializable{
 	@Column(name="J1ITEM")
     private String codigoItem;
 	
-	@Transient
+	@Column(name="J1DESC")
 	private String dsItem;
 	
 	@Transient
@@ -90,9 +102,25 @@ public class ItemPasseGeral implements Serializable{
 	@Transient
 	private String operacao;
 	
-	@Transient
-	private ArrayList<RetornoItemPasseGeral> retornoItemPasse;
+	@JsonManagedReference
+	@OneToMany(mappedBy="itemPasseGeral", cascade=CascadeType.ALL)
+	private List<RetornoItemPasseGeral> retornoItemPasse = new ArrayList<>();
+
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j1cod", referencedColumnName="j0cod", insertable = false, updatable = false)
+	})
+	private PasseGeral passeGeral;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="D0003_ID_LOCALIZACAO", insertable = false, updatable = false),
+	    @JoinColumn(name="j1item", referencedColumnName="D0421_ID_MATERIAL", insertable = false, updatable = false)
+	})
+	private Item item;
+
 	public ItemPasseGeral() {
 		
 	}
@@ -101,7 +129,7 @@ public class ItemPasseGeral implements Serializable{
 			String dsItem, String dsCliFor, Date dataInclusao, String horaInclusao, Float quantidade, String unidMed,
 			Float qtdeRetorno, Float saldo, Float pesoLiquido, Float pesoBruto, Integer numeroVolumes, String obs1,
 			String obs2, String obs3, Float valorUnitario, Float valorOrcado, String statusPasse, String entradaSaida,
-			String retorno, String operacao,ArrayList<RetornoItemPasseGeral> retornoItemPasse) {
+			String retorno, String operacao,PasseGeral passeGeral,Item item) {
 		super();
 		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
@@ -126,10 +154,11 @@ public class ItemPasseGeral implements Serializable{
 		this.entradaSaida = entradaSaida;
 		this.retorno = retorno;
 		this.operacao = operacao;
-		this.retornoItemPasse = retornoItemPasse;
+		this.passeGeral = passeGeral;
+		this.item = item;
 	}
 
-	public ArrayList<RetornoItemPasseGeral> getRetornoItemPasse() {
+	public List<RetornoItemPasseGeral> getRetornoItemPasse() {
 		return retornoItemPasse;
 	}
 	
@@ -320,6 +349,14 @@ public class ItemPasseGeral implements Serializable{
 	public void setOperacao(String operacao) {
 		this.operacao = operacao;
 	}
+	
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
 
 	@Override
 	public int hashCode() {
@@ -329,6 +366,22 @@ public class ItemPasseGeral implements Serializable{
 		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
 		result = prime * result + ((numeroPasse == null) ? 0 : numeroPasse.hashCode());
 		return result;
+	}
+
+	public String getCodigoItem() {
+		return codigoItem;
+	}
+
+	public void setCodigoItem(String codigoItem) {
+		this.codigoItem = codigoItem;
+	}
+
+	public PasseGeral getPasseGeral() {
+		return passeGeral;
+	}
+
+	public void setPasseGeral(PasseGeral passeGeral) {
+		this.passeGeral = passeGeral;
 	}
 
 	@Override

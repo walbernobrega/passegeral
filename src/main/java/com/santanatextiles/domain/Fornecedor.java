@@ -27,18 +27,21 @@ public class Fornecedor implements Serializable{
 	private String tipo;
 	@Column(name="B2CGCCPF")
 	private String cnpj;
+	@Column(name="B2TPENTIDA")
+	private String tipoEntidade;
 
 	public Fornecedor() {
 		
 	}
 	
-	public Fornecedor(String idfil, String codigo, String descricao, String tipo, String cnpj) {
+	public Fornecedor(String idfil, String codigo, String descricao, String tipo, String cnpj, String tipoEntidade) {
 		super();
 		this.idfil = idfil;
 		this.codigo = codigo;
 		this.descricao = descricao;
 		this.tipo = tipo;
 		this.cnpj = cnpj;
+		this.tipoEntidade = tipoEntidade;
 	}
 
 	
@@ -80,6 +83,14 @@ public class Fornecedor implements Serializable{
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+	
+	public String getTipoEntidade() {
+		return tipoEntidade;
+	}
+
+	public void setTipoEntidade(String tipoEntidade) {
+		this.tipoEntidade = tipoEntidade;
 	}
 
 	@Override

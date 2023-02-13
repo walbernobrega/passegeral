@@ -9,51 +9,48 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="BALF6_DBF",schema="BAL")
-@IdClass(TransacaoId.class)
-public class Transacao implements Serializable{
+@Table(name="E0421_STL_MATERIAL",schema="STL")
+@IdClass(MaterialId.class)
+public class Material implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="D0003_ID_LOCALIZACAO")
+	private Long localizacao;
 	
 	@Id
-	@Column(name="IDFIL")
-	private String idfil;
+	@Column(name="D0421_ID_MATERIAL")
+	private Long codigo;
 	
-	@Id
-	@Column(name="F6COD")
-	private String codigo;
-	
-	@Column(name="F6DESC")
+	@Column(name="D0421_NOME")
 	private String descricao;
 	
-	@Column(name="F6GEREN")
-	private String gerente;
-
-	public Transacao() {
+	public Material() {
 		
 	}
 
-	public Transacao(String idfil, String codigo, String descricao, String gerente) {
+	public Material(Long localizacao, Long codigo, String descricao) {
 		super();
-		this.idfil = idfil;
+		this.localizacao = localizacao;
 		this.codigo = codigo;
 		this.descricao = descricao;
-		this.gerente = gerente;
 	}
+
 	
-	public String getIdfil() {
-		return idfil;
+	public Long getLocalizacao() {
+		return localizacao;
 	}
 
-	public void setIdfil(String idfil) {
-		this.idfil = idfil;
+	public void setLocalizacao(Long localizacao) {
+		this.localizacao = localizacao;
 	}
 
-	public String getCodigo() {
+	public Long getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
@@ -65,20 +62,12 @@ public class Transacao implements Serializable{
 		this.descricao = descricao;
 	}
 
-	public String getGerente() {
-		return gerente;
-	}
-
-	public void setGerente(String gerente) {
-		this.gerente = gerente;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
+		result = prime * result + ((localizacao == null) ? 0 : localizacao.hashCode());
 		return result;
 	}
 
@@ -90,20 +79,19 @@ public class Transacao implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Transacao other = (Transacao) obj;
+		Material other = (Material) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
-		if (idfil == null) {
-			if (other.idfil != null)
+		if (localizacao == null) {
+			if (other.localizacao != null)
 				return false;
-		} else if (!idfil.equals(other.idfil))
+		} else if (!localizacao.equals(other.localizacao))
 			return false;
 		return true;
 	}
 
-	
 
 }

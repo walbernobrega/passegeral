@@ -2,14 +2,18 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="E0421_STL_MATERIAL",schema="STL")
+@Table(name="E0422_STL_ITEM",schema="STL")
 @IdClass(ItemId.class)
 public class Item implements Serializable{
 	
@@ -21,20 +25,29 @@ public class Item implements Serializable{
 	
 	@Id
 	@Column(name="D0421_ID_MATERIAL")
+	private Long codMaterial;
+
+	@Id
+	@Column(name="D0422_ID_ITEM")
 	private Long codigo;
 	
-	@Column(name="D0421_NOME")
-	private String descricao;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="D0003_ID_LOCALIZACAO", referencedColumnName="D0003_ID_LOCALIZACAO", insertable = false, updatable = false),
+	    @JoinColumn(name="D0421_ID_MATERIAL", referencedColumnName="D0421_ID_MATERIAL", insertable = false, updatable = false)
+	})
+	private Material material;
 	
 	public Item() {
 		
 	}
 
-	public Item(Long localizacao, Long codigo, String descricao) {
+	public Item(Long localizacao, Long codMaterial , Long codigo, String descricao, Material material) {
 		super();
 		this.localizacao = localizacao;
 		this.codigo = codigo;
-		this.descricao = descricao;
+		this.codMaterial = codMaterial;
+		this.material = material;
 	}
 
 	
@@ -54,12 +67,21 @@ public class Item implements Serializable{
 		this.codigo = codigo;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	
+	public Long getCodMaterial() {
+		return codMaterial;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setCodMaterial(Long codMaterial) {
+		this.codMaterial = codMaterial;
+	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 
 	@Override

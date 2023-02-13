@@ -3,10 +3,16 @@ package com.santanatextiles.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -65,13 +71,22 @@ public class RetornoItemPasseGeral implements Serializable{
 	@Transient
 	private String tipoOperacao;
 
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j2cod", referencedColumnName="j1cod", insertable = false, updatable = false),
+	    @JoinColumn(name="j2item", referencedColumnName="j1item", insertable = false, updatable = false)
+	})
+	private ItemPasseGeral itemPasseGeral;
+	
 	public RetornoItemPasseGeral() {
 		
 	}
 
 	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, String descricaoItem, Date dataRetorno, String horaRetorno,
 			String codigoPorteiro, String dsPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico,
-			String status, Float pagamentoRetorno, String observacao, String tipoOperacao) {
+			String status, Float pagamentoRetorno, String observacao, String tipoOperacao, ItemPasseGeral itemPasseGeral) {
 		super();
 		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
@@ -88,6 +103,7 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.pagamentoRetorno = pagamentoRetorno;
 		this.observacao = observacao;
 		this.tipoOperacao = tipoOperacao;
+		this.itemPasseGeral = itemPasseGeral;
 	}
 
 	
@@ -209,6 +225,15 @@ public class RetornoItemPasseGeral implements Serializable{
 
 	public void setDescricaoItem(String descricaoItem) {
 		this.descricaoItem = descricaoItem;
+	}
+
+	
+	public ItemPasseGeral getItemPasseGeral() {
+		return itemPasseGeral;
+	}
+
+	public void setItemPasseGeral(ItemPasseGeral itemPasseGeral) {
+		this.itemPasseGeral = itemPasseGeral;
 	}
 
 	@Override

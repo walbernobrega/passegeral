@@ -3,11 +3,20 @@ package com.santanatextiles.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -124,9 +133,68 @@ public class PasseGeral implements Serializable{
 	
 	@Column(name="J0PORTADOR")
 	private String portador;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy="passeGeral", cascade=CascadeType.ALL)
+	private List<ItemPasseGeral> itensPasse = new ArrayList<>();
 	
-	@Transient
-	private ArrayList<ItemPasseGeral> itensPasse;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0trsa", referencedColumnName="f6cod", insertable = false, updatable = false)
+	})
+	private Transacao transacao;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0tran", referencedColumnName="b2cod", insertable = false, updatable = false)
+	})
+	private Transportadora transportadora;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0cecu", referencedColumnName="d4cod", insertable = false, updatable = false)
+	})
+	private CentroDeCusto centroDeCusto;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0autor", referencedColumnName="d4matr", insertable = false, updatable = false)
+	})
+	private UsuarioPasse usuarioPasse;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0geren", referencedColumnName="c3matr", insertable = false, updatable = false)
+	})
+	private Gerente gerente;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0port", referencedColumnName="e5cod", insertable = false, updatable = false)
+	})
+	private Porteiro porteiro;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0dest", referencedColumnName="b2cod", insertable = false, updatable = false),
+	    @JoinColumn(name="j0tpdest", referencedColumnName="b2tpentida", insertable = false, updatable = false),
+	})
+	private Cliente cliente;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0dest", referencedColumnName="b2cod", insertable = false, updatable = false),
+	    @JoinColumn(name="j0tpdest", referencedColumnName="b2tpentida", insertable = false, updatable = false),
+	})
+	private Fornecedor fornecedor;
 	
 	public PasseGeral() {
 		
@@ -139,7 +207,8 @@ public class PasseGeral implements Serializable{
 			String cdPorteiro, String dsPorteiro, String cdAprovador, String dsAprovador, String tipoDocumento,
 			String numDocumento, Date dataVerificacao, Date dataInclusao, Date dataPrevisaoRetorno,
 			Date dataProrrogacao, String motivo, String horaVerificacao, String status, String portador,
-			ArrayList<ItemPasseGeral> itensPasse) {
+			Transacao transacao, Transportadora transportadora, CentroDeCusto centroDeCusto, UsuarioPasse usuarioPasse,
+			Gerente gerente, Porteiro porteiro,Cliente cliente, Fornecedor fornecedor) {
 		super();
 		this.idfil = idfil;
 		this.retorno = retorno;
@@ -177,7 +246,14 @@ public class PasseGeral implements Serializable{
 		this.horaVerificacao = horaVerificacao;
 		this.status = status;
 		this.portador = portador;
-		this.itensPasse = itensPasse;
+		this.transacao = transacao;
+		this.transportadora = transportadora;
+		this.centroDeCusto = centroDeCusto;
+		this.usuarioPasse = usuarioPasse;
+		this.gerente = gerente;
+		this.porteiro = porteiro;
+		this.cliente = cliente;
+		this.fornecedor = fornecedor;
 	}
 
 	public String getIdfil() {
@@ -468,12 +544,78 @@ public class PasseGeral implements Serializable{
 		this.portador = portador;
 	}
 
-	public ArrayList<ItemPasseGeral> getItensPasse() {
+	public List<ItemPasseGeral> getItensPasse() {
 		return itensPasse;
 	}
 
 	public void setItensPasse(ArrayList<ItemPasseGeral> itensPasse) {
 		this.itensPasse = itensPasse;
+	}
+
+	public Transacao getTransacao() {
+		return transacao;
+	}
+
+	public void setTransacao(Transacao transacao) {
+		this.transacao = transacao;
+	}
+
+	
+	public Transportadora getTransportadora() {
+		return transportadora;
+	}
+
+	public void setTransportadora(Transportadora transportadora) {
+		this.transportadora = transportadora;
+	}
+
+	
+	public CentroDeCusto getCentroDeCusto() {
+		return centroDeCusto;
+	}
+
+	public void setCentroDeCusto(CentroDeCusto centroDeCusto) {
+		this.centroDeCusto = centroDeCusto;
+	}
+
+	public UsuarioPasse getUsuarioPasse() {
+		return usuarioPasse;
+	}
+
+	public void setUsuarioPasse(UsuarioPasse usuarioPasse) {
+		this.usuarioPasse = usuarioPasse;
+	}
+
+	public Gerente getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Gerente gerente) {
+		this.gerente = gerente;
+	}
+
+	public Porteiro getPorteiro() {
+		return porteiro;
+	}
+
+	public void setPorteiro(Porteiro porteiro) {
+		this.porteiro = porteiro;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 	@Override
