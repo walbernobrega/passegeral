@@ -3,7 +3,9 @@ package com.santanatextiles.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.santanatextiles.domain.enums.SimNao;
@@ -116,12 +118,24 @@ public class PasseGeral implements Serializable{
 	@Column(name="J0DOCT")
 	private String numDocumento;
 	
+	/*
+	 	Se Quiser a data formatada
+		@JsonFormat(pattern="dd/MM/yyyy")
+	*/ 
 	@Column(name="J0DATA")
 	private Date dataVerificacao;
-	
+
+	/*
+ 		Se Quiser a data formatada
+		@JsonFormat(pattern="dd/MM/yyyy")
+	*/ 
 	@Column(name="J0DTIN")
 	private Date dataInclusao;
 	
+	/*
+ 		Se Quiser a data formatada
+		@JsonFormat(pattern="dd/MM/yyyy")
+	*/ 
 	@Column(name="J0RETORNO")
 	private Date dataPrevisaoRetorno;
 	
@@ -140,9 +154,8 @@ public class PasseGeral implements Serializable{
 	@Column(name="J0PORTADOR")
 	private String portador;
 
-	@JsonManagedReference
 	@OneToMany(mappedBy="passeGeral", cascade=CascadeType.ALL)
-	private List<ItemPasseGeral> itensPasse = new ArrayList<>();
+	private Set<ItemPasseGeral> itensPasse = new HashSet<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumns({
@@ -550,11 +563,11 @@ public class PasseGeral implements Serializable{
 		this.portador = portador;
 	}
 
-	public List<ItemPasseGeral> getItensPasse() {
+	public Set<ItemPasseGeral> getItensPasse() {
 		return itensPasse;
 	}
 
-	public void setItensPasse(ArrayList<ItemPasseGeral> itensPasse) {
+	public void setItensPasse(Set<ItemPasseGeral> itensPasse) {
 		this.itensPasse = itensPasse;
 	}
 

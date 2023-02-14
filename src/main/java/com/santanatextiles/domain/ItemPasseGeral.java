@@ -1,11 +1,10 @@
 package com.santanatextiles.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -102,11 +101,10 @@ public class ItemPasseGeral implements Serializable{
 	@Transient
 	private String operacao;
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy="itemPasseGeral", cascade=CascadeType.ALL)
-	private List<RetornoItemPasseGeral> retornoItemPasse = new ArrayList<>();
+	private Set<RetornoItemPasseGeral> retornoItemPasse = new HashSet<>();
 
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
@@ -158,7 +156,7 @@ public class ItemPasseGeral implements Serializable{
 		this.item = item;
 	}
 
-	public List<RetornoItemPasseGeral> getRetornoItemPasse() {
+	public Set<RetornoItemPasseGeral> getRetornoItemPasse() {
 		return retornoItemPasse;
 	}
 	
@@ -170,7 +168,7 @@ public class ItemPasseGeral implements Serializable{
 		this.idfil = idfil;
 	}
 
-	public void setRetornoItemPasse(ArrayList<RetornoItemPasseGeral> retornoItemPasse) {
+	public void setRetornoItemPasse(Set<RetornoItemPasseGeral> retornoItemPasse) {
 		this.retornoItemPasse = retornoItemPasse;
 	}
 
