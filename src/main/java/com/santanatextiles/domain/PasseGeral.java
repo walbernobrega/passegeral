@@ -12,10 +12,7 @@ import com.santanatextiles.domain.enums.TipoPasse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
@@ -42,7 +39,7 @@ public class PasseGeral implements Serializable{
 	private String numeroPasse;
 
 	@Column(name="J0RETO")
-	private SimNao retorno;
+	private String retorno;
 	
 	@Column(name="J0OBS1")
 	private String obs1;
@@ -54,7 +51,7 @@ public class PasseGeral implements Serializable{
 	private String obs3;
 	
 	@Column(name="J0ENSA")
-	private TipoPasse entradaSaida;
+	private String entradaSaida;
 	
 	@Column(name="J0CECU")
 	private String cdCCusto;
@@ -75,7 +72,7 @@ public class PasseGeral implements Serializable{
 	private String dsFornCli;
 	
 	@Column(name="J0TPDEST")
-	private TipoDestino tpFornCli;
+	private String tpFornCli;
 	
 	@Column(name="J0TRSA")
 	private String cdTransacao;
@@ -209,9 +206,9 @@ public class PasseGeral implements Serializable{
 		
 	}
 
-	public PasseGeral(String idfil, SimNao retorno, String numeroPasse, String obs1, String obs2, String obs3,
-			TipoPasse entradaSaida, String cdCCusto, String dsCCusto, String cdAutor, String dsAutor, String cdFornCli,
-			String dsFornCli, TipoDestino tpFornCli, String cdTransacao, String dsTransacao, String aprovador,
+	public PasseGeral(String idfil, String retorno, String numeroPasse, String obs1, String obs2, String obs3,
+			String entradaSaida, String cdCCusto, String dsCCusto, String cdAutor, String dsAutor, String cdFornCli,
+			String dsFornCli, String  tpFornCli, String cdTransacao, String dsTransacao, String aprovador,
 			String notaFiscal, String tipoTransporte, String placa, String cdTransportador, String dsTransportador,
 			String cdPorteiro, String dsPorteiro, String cdAprovador, String dsAprovador, String tipoDocumento,
 			String numDocumento, Date dataVerificacao, Date dataInclusao, Date dataPrevisaoRetorno,
@@ -274,11 +271,11 @@ public class PasseGeral implements Serializable{
 	}
 
 	public SimNao getRetorno() {
-		return retorno;
+		return SimNao.toEnum(retorno);
 	}
 
 	public void setRetorno(SimNao retorno) {
-		this.retorno = retorno;
+		this.retorno = retorno.getCodigo();
 	}
 
 	public String getNumeroPasse() {
@@ -314,11 +311,11 @@ public class PasseGeral implements Serializable{
 	}
 
 	public TipoPasse getEntradaSaida() {
-		return entradaSaida;
+		return TipoPasse.toEnum(entradaSaida);
 	}
 
 	public void setEntradaSaida(TipoPasse entradaSaida) {
-		this.entradaSaida = entradaSaida;
+		this.entradaSaida = entradaSaida.getCodigo();
 	}
 
 	public String getCdCCusto() {
@@ -370,11 +367,11 @@ public class PasseGeral implements Serializable{
 	}
 
 	public TipoDestino getTpFornCli() {
-		return tpFornCli;
+		return TipoDestino.toEnum(tpFornCli);
 	}
 
 	public void setTpFornCli(TipoDestino tpFornCli) {
-		this.tpFornCli = tpFornCli;
+		this.tpFornCli = tpFornCli.getCodigo();
 	}
 
 	public String getCdTransacao() {
