@@ -1,6 +1,5 @@
 package com.santanatextiles.resources;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.CentroDeCusto;
 import com.santanatextiles.services.CentroDeCustoService;
 
@@ -23,10 +23,22 @@ public class CentroDeCustoResource {
 	@RequestMapping(value="/{codigo}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
-		CentroDeCusto obj = service.buscar(codigo);
+		CentroDeCusto obj = service.buscar(PassegeralApplication._EMPRESA , codigo);
 		
 		return ResponseEntity.ok().body(obj);
 		
 	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public  ResponseEntity<List<CentroDeCusto>> findAll() {
+		List<CentroDeCusto> lista = service.listagemGeral(PassegeralApplication._EMPRESA);
+		return ResponseEntity.ok().body(lista);
+	}
 
+	@RequestMapping(value="/descricao/{descricao}",method=RequestMethod.GET)
+	public  ResponseEntity<List<CentroDeCusto>> procuraPorDescricao(@PathVariable String descricao) {
+		List<CentroDeCusto> lista = service.procuraPorDescricao(PassegeralApplication._EMPRESA, descricao);
+		return ResponseEntity.ok().body(lista);
+	}
+	
 }
