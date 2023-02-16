@@ -1,9 +1,11 @@
 package com.santanatextiles.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.santanatextiles.PassegeralApplication;
@@ -22,12 +24,13 @@ public class UsuarioPasseService {
 		return obj.orElse(null);
 	}
 	
-	public List<UsuarioPasse> listagemGeral(String idfil) {
-		return repo.findByIdfilOrderByNome(idfil);
+	public Page<UsuarioPasse> listagemGeral(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findByIdfil(pageRequest,PassegeralApplication._EMPRESA);
 	}
-	
-	public List<UsuarioPasse> procuraPorNome(String idfil, String nome) {
-		return repo.findByIdfilAndNomeContainingIgnoreCaseOrderByNome(idfil, nome);
+
+	public Page<UsuarioPasse> procuraPorNome(Integer page, Integer linesPerPage, String orderBy, String direction, String idfil, String nome) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findByIdfilAndNomeContainingIgnoreCase(pageRequest, idfil, nome);
 	}
-	
 }

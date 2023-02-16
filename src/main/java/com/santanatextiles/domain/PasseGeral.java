@@ -1,13 +1,10 @@
 package com.santanatextiles.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.santanatextiles.domain.enums.SimNao;
 import com.santanatextiles.domain.enums.TipoDestino;
 import com.santanatextiles.domain.enums.TipoPasse;

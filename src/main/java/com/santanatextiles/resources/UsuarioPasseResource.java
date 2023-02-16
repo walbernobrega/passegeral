@@ -1,12 +1,12 @@
 package com.santanatextiles.resources;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.PassegeralApplication;
@@ -29,15 +29,31 @@ public class UsuarioPasseResource {
 		
 	}
 	
+	/*
+	localhost:8082/usuariopasse?linesPerPage=3&page=1&direction=ASC&orderBy=nome
+	*/
 	@RequestMapping(method=RequestMethod.GET)
-	public  ResponseEntity<List<UsuarioPasse>> findAll() {
-		List<UsuarioPasse> lista = service.listagemGeral(PassegeralApplication._EMPRESA);
+	public  ResponseEntity<Page<UsuarioPasse>> findAll(
+			@RequestParam(value="page", defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
+			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
+			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		Page<UsuarioPasse> lista = service.listagemGeral(page, linesPerPage, orderBy, direction);
 		return ResponseEntity.ok().body(lista);
 	}
 
+	/*
+	localhost:8082/usuariopasse/nome/administracao/?linesPerPage=3&page=1&direction=ASC&orderBy=nome
+	*/
+	
 	@RequestMapping(value="/nome/{nome}",method=RequestMethod.GET)
-	public  ResponseEntity<List<UsuarioPasse>> procuraPorDescricao(@PathVariable String nome) {
-		List<UsuarioPasse> lista = service.procuraPorNome(PassegeralApplication._EMPRESA, nome);
+	public  ResponseEntity<Page<UsuarioPasse>> procuraPorNome(
+			@RequestParam(value="page", defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
+			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
+			@RequestParam(value="direction", defaultValue="ASC") String direction,
+			@PathVariable String nome) {
+		Page<UsuarioPasse> lista = service.procuraPorNome(page, linesPerPage, orderBy, direction, PassegeralApplication._EMPRESA, nome);
 		return ResponseEntity.ok().body(lista);
 	}
 	

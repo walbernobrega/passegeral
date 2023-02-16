@@ -1,9 +1,11 @@
 package com.santanatextiles.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.santanatextiles.PassegeralApplication;
@@ -22,12 +24,14 @@ public class TransportadoraService {
 		return obj.orElse(null);
 	}
 	
-	public List<Transportadora> listagemGeral(String idfil) {
-		return repo.findByIdfilOrderByDescricao(idfil);
+	public Page<Transportadora> listagemGeral(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findByIdfil(pageRequest,PassegeralApplication._EMPRESA);
 	}
-	
-	public List<Transportadora> procuraPorDescricao(String idfil, String descricao) {
-		return repo.findByIdfilAndDescricaoContainingIgnoreCaseOrderByDescricao(idfil, descricao);
+
+	public Page<Transportadora> procuraPorDescricao(Integer page, Integer linesPerPage, String orderBy, String direction, String idfil, String descricao) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findByIdfilAndDescricaoContainingIgnoreCase(pageRequest, idfil, descricao);
 	}
 	
 }
