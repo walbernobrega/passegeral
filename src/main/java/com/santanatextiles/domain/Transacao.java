@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="BALF6_DBF",schema="BAL")
 @IdClass(TransacaoId.class)
-public class Transacao implements Serializable{
+public class Transacao implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	

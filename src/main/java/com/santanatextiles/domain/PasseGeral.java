@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santanatextiles.domain.enums.SimNao;
 import com.santanatextiles.domain.enums.TipoDestino;
 import com.santanatextiles.domain.enums.TipoPasse;
@@ -159,6 +160,7 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
 	    @JoinColumn(name="j0trsa", referencedColumnName="f6cod", insertable = false, updatable = false)
 	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Transacao transacao;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -173,6 +175,7 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
 	    @JoinColumn(name="j0cecu", referencedColumnName="d4cod", insertable = false, updatable = false)
 	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private CentroDeCusto centroDeCusto;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -180,6 +183,7 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
 	    @JoinColumn(name="j0autor", referencedColumnName="d4matr", insertable = false, updatable = false)
 	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private UsuarioPasse usuarioPasse;
 
 	@OneToOne(cascade = CascadeType.ALL)

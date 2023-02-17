@@ -44,7 +44,6 @@ public class CentroDeCusto implements Serializable{
 		this.idfil = idfil;
 	}
 
-
 	public String getCodigo() {
 		return codigo;
 	}

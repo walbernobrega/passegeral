@@ -33,5 +33,20 @@ public class PasseGeralService {
 	public List<PasseGeral> procuraPorPortador(String idfil, String portador) {
 		return repo.findByIdfilAndPortadorContainingIgnoreCaseOrderByPortador(idfil, portador);
 	}
+
+	public Page<PasseGeral> passesNaoVerificados(Integer page, Integer linesPerPage, String orderBy, String direction, String idfil) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.passesNaoVerificados(pageRequest, idfil);
+	}
+	
+	public Page<PasseGeral> passesNaoAprovados(Integer page, Integer linesPerPage, String orderBy, String direction, String idfil, String gerente) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.passesNaoAprovados(pageRequest, idfil, gerente);
+	}
+
+	public Page<PasseGeral> passesDoUsuario(Integer page, Integer linesPerPage, String orderBy, String direction, String idfil, String autor) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.passesDoUsuario(pageRequest, idfil, autor);
+	}
 	
 }

@@ -30,13 +30,11 @@ public class Transportadora implements Serializable{
 		
 	}
 
-	public Transportadora(String idfil, String codigo, String descricao) {
+	public Transportadora(String codigo, String descricao) {
 		super();
-		this.idfil = idfil;
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
-
 	
 	public String getIdfil() {
 		return idfil;
