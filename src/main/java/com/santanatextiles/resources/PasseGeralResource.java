@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.PasseGeral;
+import com.santanatextiles.dto.PasseGeralDTO;
 import com.santanatextiles.services.PasseGeralService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value="/passegeral")
@@ -30,6 +35,28 @@ public class PasseGeralResource {
 		return ResponseEntity.ok().body(obj);
 		
 	}
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<String> insert(@Valid @RequestBody PasseGeralDTO objDTO) {
+		PasseGeral obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		return ResponseEntity.status(HttpStatus.OK).body("Código do Passe: " + obj.getNumeroPasse());
+	}
+
+	@RequestMapping(value="{numeroPasse}",method=RequestMethod.PUT)
+	public ResponseEntity<String> update(@Valid @RequestBody PasseGeralDTO objDTO, @PathVariable String numeroPasse) {
+		PasseGeral obj = service.fromDTO(objDTO);
+		obj.setNumeroPasse(numeroPasse);
+		obj = service.update(obj);
+		return ResponseEntity.status(HttpStatus.OK).body("Alteração Efetuada Passe: " + obj.getNumeroPasse());
+	}
+
+	@RequestMapping(value="{numeroPasse}",method=RequestMethod.DELETE)
+	public ResponseEntity<String> delete(@PathVariable String numeroPasse) {
+		service.delete(numeroPasse);
+		return ResponseEntity.status(HttpStatus.OK).body("Deleção Efetuada Passe: " + numeroPasse);
+	}
+	
 	/*
 	localhost:8082/passegeral?linesPerPage=3&page=1&direction=ASC&orderBy=fornecedor.descricao
 	*/

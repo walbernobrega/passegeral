@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.santanatextiles.domain.PasseGeral;
 import com.santanatextiles.domain.PasseGeralId;
@@ -15,10 +17,25 @@ import com.santanatextiles.domain.PasseGeralId;
 @Repository
 public interface PasseGeralRepository extends JpaRepository<PasseGeral , PasseGeralId> {
 	
+	@Transactional(readOnly=true)
 	Page<PasseGeral> findByIdfilOrderByDataInclusao(PageRequest pageRequest, String idfil);
 	
+	@Transactional(readOnly=true)
 	List<PasseGeral> findByIdfilAndPortadorContainingIgnoreCaseOrderByPortador(String idfil, String portador);
 
+	@Modifying
+	@Query(value="DELETE FROM bal.balj2_dbf WHERE idfil = :idfil AND j2cod = :numeroPasse", nativeQuery = true)
+	int deletaRetornoItensPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse);
+
+	@Modifying
+	@Query(value="DELETE FROM bal.balj1_dbf WHERE idfil = :idfil AND j1cod = :numeroPasse", nativeQuery = true)
+	int deletaItensPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse);
+
+	@Modifying
+	@Query(value="DELETE FROM bal.balj0_dbf WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int deletaPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse);
+	
+	@Transactional(readOnly=true)
 	@Query(value="SELECT  j0.j0dtin as j0dtin,"
 			+ "        j0.idfil as idfil,"
 			+ "        j0.j0cod as j0cod,"
@@ -74,7 +91,11 @@ public interface PasseGeralRepository extends JpaRepository<PasseGeral , PasseGe
 			+ "        AND j0.j0dest = c.b2cod(+) "
 			+ "        AND j0.j0dest = f.b2cod(+) ", nativeQuery = true)
 	Page<PasseGeral> passesNaoVerificados(PageRequest pageRequest, @Param("idfil") String idfil);
+
+	@Query(value="SELECT LPAD(NVL(MAX(j0cod),0)+1,6,'0') FROM bal.balj0_dbf WHERE idfil = :idfil", nativeQuery = true)
+	String CodigoNovoPasse(@Param("idfil") String idfil);
 	
+	@Transactional(readOnly=true)
 	@Query(value="SELECT  j0.j0dtin as j0dtin,"
 			+ "                 j0.idfil as idfil,"
 			+ "                 j0.j0cod as j0cod,"
@@ -129,6 +150,7 @@ public interface PasseGeralRepository extends JpaRepository<PasseGeral , PasseGe
 			+ "                 AND j0.j0dest = f.b2cod(+) ", nativeQuery = true)
 	Page<PasseGeral> passesNaoAprovados(PageRequest pageRequest, @Param("idfil") String idfil, @Param("gerente") String gerente);
 
+	@Transactional(readOnly=true)
 	@Query(value="SELECT  j0.j0dtin as j0dtin,"
 			+ "                 j0.idfil as idfil,"
 			+ "                 j0.j0cod as j0cod,"

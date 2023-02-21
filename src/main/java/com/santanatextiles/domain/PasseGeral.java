@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santanatextiles.domain.enums.SimNao;
 import com.santanatextiles.domain.enums.TipoDestino;
@@ -219,7 +218,67 @@ public class PasseGeral implements Serializable{
 	public PasseGeral() {
 		
 	}
-
+	
+	public PasseGeral(String idfil,
+					String numeroPasse,
+					String retorno,
+					String obs1,
+					String obs2,
+					String obs3,
+					String entradaSaida,
+					String cdCCusto,
+					String cdAutor,
+					String cdFornCli,
+					String tpFornCli,
+					String cdTransacao,
+					String notaFiscal,
+					String tipoTransporte,
+					String placa,
+					String cdTransportador,
+					String cdPorteiro,
+					String cdAprovador,
+					String tipoDocumento,
+					String numDocumento,
+					Date dataVerificacao,
+					Date dataInclusao,
+					Date dataPrevisaoRetorno,
+					Date dataProrrogacao,
+					String motivo,
+					String horaVerificacao,
+					String status,
+					String portador
+					) {
+		super();
+		this.idfil = idfil;
+		this.numeroPasse = numeroPasse;
+		this.retorno = retorno;
+		this.obs1 = obs1;
+		this.obs2 = obs2;
+		this.obs3 = obs3;
+		this.entradaSaida = entradaSaida;
+		this.cdCCusto = cdCCusto;
+		this.cdAutor = cdAutor;
+		this.cdFornCli = cdFornCli;
+		this.tpFornCli = tpFornCli;
+		this.cdTransacao = cdTransacao;
+		this.notaFiscal = notaFiscal;
+		this.tipoTransporte = tipoTransporte;
+		this.placa = placa;
+		this.cdTransportador = cdTransportador;
+		this.cdPorteiro = cdPorteiro;
+		this.cdAprovador = cdAprovador;
+		this.tipoDocumento = tipoDocumento;
+		this.numDocumento = numDocumento;
+		this.dataVerificacao = dataVerificacao;
+		this.dataInclusao = dataInclusao;
+		this.dataPrevisaoRetorno = dataPrevisaoRetorno;
+		this.dataProrrogacao = dataProrrogacao;
+		this.motivo = motivo;
+		this.horaVerificacao = horaVerificacao;
+		this.status = status;
+		this.portador = portador;
+	}
+	
 	public PasseGeral(String idfil, String retorno, String numeroPasse, String obs1, String obs2, String obs3,
 			String entradaSaida, String cdCCusto, String dsCCusto, String cdAutor, String dsAutor, String cdFornCli,
 			String dsFornCli, String  tpFornCli, String cdTransacao, String dsTransacao, String aprovador,
