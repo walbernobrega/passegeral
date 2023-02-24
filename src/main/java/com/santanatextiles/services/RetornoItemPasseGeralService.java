@@ -1,29 +1,42 @@
 package com.santanatextiles.services;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.santanatextiles.PassegeralApplication;
+import com.santanatextiles.domain.Item;
 import com.santanatextiles.domain.RetornoItemPasseGeral;
 import com.santanatextiles.domain.RetornoItemPasseGeralId;
 import com.santanatextiles.dto.RetornoItemPasseGeralDTO;
 import com.santanatextiles.repositories.RetornoItemPasseGeralRepository;
+import com.santanatextiles.services.exceptions.DataIntegrityException;
 
 @Service
 public class RetornoItemPasseGeralService {
 
 	@Autowired
 	private RetornoItemPasseGeralRepository repo;
+
+	@Autowired
+	private ItemService itemService;
 	
-	public RetornoItemPasseGeral buscar(String numeroPasse, String codigoItem) {
-		Optional<RetornoItemPasseGeral> obj = repo.findById(new RetornoItemPasseGeralId("01",numeroPasse,codigoItem));
+	private ArrayList<String> msg = new ArrayList<>();
+	
+	public RetornoItemPasseGeral buscar(String idfil, String numeroPasse, String codigoItem) {
+		Optional<RetornoItemPasseGeral> obj = repo.findByIdfilAndNumeroPasseAndCodigoItem(idfil,numeroPasse,codigoItem);
 		return obj.orElse(null);
 	}
 
+	public RetornoItemPasseGeral buscarDataHora(String idfil, String numeroPasse, String codigoItem, Date data, String hora) {
+		Optional<RetornoItemPasseGeral> obj = repo.findById(new RetornoItemPasseGeralId(idfil,numeroPasse,codigoItem,data,hora));
+		return obj.orElse(null);
+	}
+	
 	public RetornoItemPasseGeral insert(RetornoItemPasseGeral obj, String novoCodigo, String codigoItem, Date dataRetorno, String horaRetorno ) {
 		
 		obj.setIdfil(PassegeralApplication._EMPRESA);
@@ -32,6 +45,44 @@ public class RetornoItemPasseGeralService {
 		obj.setHoraRetorno(horaRetorno);
 		
 		return repo.save(obj);
+	}
+	
+	public RetornoItemPasseGeral update(RetornoItemPasseGeral obj) {
+		
+		List<String> msg = verificaEntidades(obj);
+		
+		if (msg.isEmpty()) {
+			buscarDataHora(PassegeralApplication._EMPRESA,obj.getNumeroPasse(), obj.getCodigoItem(), obj.getDataRetorno(), obj.getHoraRetorno());
+		} else {
+			throw new DataIntegrityException(String.join(",", msg)); 
+		}
+		
+		return repo.save(obj);
+		
+	}
+
+	public int deletaTodos(String idfil , String numeroPasse) {
+		
+		return repo.deletaTodos(idfil, numeroPasse);
+		
+	}
+	
+	private List<String> verificaEntidades(RetornoItemPasseGeral obj) {
+		this.msg.clear();
+		try {
+			if(obj.getCodigoItem() != null && ("111111|999999").indexOf(obj.getCodigoItem()) == -1) {
+				Item item = itemService.buscar(Long.parseLong(obj.getCodigoItem())); 
+				if ( item == null) {
+					this.msg.add("Item Não Cadastrado");
+				} else {
+					obj.setItem(item);
+				};
+			}
+		} 
+		catch (Exception e) {
+			
+		}
+		return this.msg;
 	}
 	
 	public RetornoItemPasseGeral fromDTO(RetornoItemPasseGeralDTO objDTO) {
@@ -46,6 +97,7 @@ public class RetornoItemPasseGeralService {
 		objDTO.getNotaFiscal(),
 		objDTO.getNotaServico(),
 		objDTO.getStatus(),
+		objDTO.getValorRetorno(),
 		objDTO.getPagamentoRetorno(),
 		objDTO.getObservacao());
 	}

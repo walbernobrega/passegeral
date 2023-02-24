@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,8 +73,35 @@ public class ItemPasseGeralService {
 		} else {
 			throw new DataIntegrityException(String.join(",", msg)); 
 		}
+		
+		if (obj.getRetornoItensPasseDTO().isEmpty()) {
+			retornoItemPasseGeralService.deletaTodos(PassegeralApplication._EMPRESA,obj.getNumeroPasse());
+		} else {
+			Iterator<RetornoItemPasseGeralDTO> it = obj.getRetornoItensPasseDTO().iterator();
+			
+			while (it.hasNext()) {
+				RetornoItemPasseGeral retornoItemPasseGeral = retornoItemPasseGeralService.fromDTO(it.next());
+				retornoItemPasseGeralService.update(retornoItemPasseGeral);
+			}
+		}
+		
+		Float totalRetornado = repo.atualizaSaldoItem(obj.getIdfil(), obj.getNumeroPasse(), obj.getCdItem()); 
+		
+		obj.setQtdeRetorno(totalRetornado);
+		obj.setSaldo(obj.getQuantidade() - totalRetornado);
+		
 		return repo.save(obj);
 		
+	}
+
+	@Transactional
+	public void delete(String numeroPasse, String codigoItem) {
+		try {
+			buscar(PassegeralApplication._EMPRESA, numeroPasse, codigoItem);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Erro de Violação de Integridade");
+		}
 	}
 	
 	private List<String> verificaEntidades(ItemPasseGeral obj) {

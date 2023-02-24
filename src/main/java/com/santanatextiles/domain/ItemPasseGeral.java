@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.santanatextiles.dto.ItemPasseGeralDTO;
 import com.santanatextiles.dto.RetornoItemPasseGeralDTO;
 
 import jakarta.persistence.CascadeType;

@@ -72,9 +72,6 @@ public class PasseGeralService {
 	
 	public PasseGeral buscar(String idfil , String numeroPasse) {
 		Optional<PasseGeral> obj = repo.findById(new PasseGeralId(PassegeralApplication._EMPRESA,numeroPasse));
-		if (obj.isEmpty()) {
-			throw new ObjectNotFoundException("Passe Não Encontrado.");
-		}
 		return obj.orElse(null);
 	}
 	
@@ -108,9 +105,13 @@ public class PasseGeralService {
 	public PasseGeral update(PasseGeral obj) {
 		verificaEntidades(obj);
 		if (this.msg.isEmpty()) {
-			buscar(PassegeralApplication._EMPRESA,obj.getNumeroPasse());
-		} else {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			if (buscar(PassegeralApplication._EMPRESA,obj.getNumeroPasse()) == null) {
+				this.msg.add("Passe : "+obj.getNumeroPasse()+" Não Existe");
+			}
+		}
+		
+		if (!this.msg.isEmpty()) {
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		Iterator<ItemPasseGeralDTO> it = obj.getItensPasseDTO().iterator();

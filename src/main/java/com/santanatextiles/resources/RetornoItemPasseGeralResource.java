@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.RetornoItemPasseGeral;
 import com.santanatextiles.services.RetornoItemPasseGeralService;
 
@@ -20,7 +21,7 @@ public class RetornoItemPasseGeralResource {
 	@RequestMapping(value="/{numeroPasse}/{codigoItem}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable String numeroPasse,@PathVariable String codigoItem) {
 		
-		RetornoItemPasseGeral obj = service.buscar(numeroPasse,codigoItem); 
+		RetornoItemPasseGeral obj = service.buscar(PassegeralApplication._EMPRESA,numeroPasse,codigoItem); 
 		
 		return ResponseEntity.ok().body(obj);
 		

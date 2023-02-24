@@ -3,6 +3,11 @@ package com.santanatextiles.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class RetornoItemPasseGeralDTO implements Serializable{
 		
 		private static final long serialVersionUID = 1L;
@@ -10,15 +15,20 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 		private String idfil;
 		
 		private String numeroPasse;
-		
+
+		@NotEmpty(message="Código do Item é Obrigatório")
 		private String codigoItem;
 		
+		@JsonFormat(pattern="dd/MM/yyyy")
+		@NotEmpty(message="Informe a Data do Retorno")
 		private Date dataRetorno;
 
 		private String horaRetorno;
 
+		@NotEmpty(message="Código do Porteiro é Obrigatório")
 		private String codigoPorteiro;
 
+		@NotEmpty(message="Quantidade Retornada é Obrigatória")
 		private Float qtdeRetornada;
 
 		private String notaFiscal;
@@ -27,8 +37,11 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 
 		private String status;
 
-		private Float pagamentoRetorno;
+		private Float valorRetorno;
+		
+		private String pagamentoRetorno;
 
+		@Size(max=40,message = "Observação Deve Possuir no Máximo 40 Caracteres")
 		private String observacao;
 		
 		public RetornoItemPasseGeralDTO() {
@@ -37,7 +50,7 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 
 		public RetornoItemPasseGeralDTO(String idfil, String numeroPasse, String codigoItem, Date dataRetorno, String horaRetorno,
 				String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico,
-				String status, Float pagamentoRetorno, String observacao) {
+				String status, Float valorRetorno , String pagamentoRetorno, String observacao) {
 			super();
 			this.idfil = idfil;
 			this.numeroPasse = numeroPasse;
@@ -49,6 +62,7 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 			this.notaFiscal = notaFiscal;
 			this.notaServico = notaServico;
 			this.status = status;
+			this.setValorRetorno(valorRetorno);
 			this.pagamentoRetorno = pagamentoRetorno;
 			this.observacao = observacao;
 		}
@@ -134,11 +148,11 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 			this.status = status;
 		}
 
-		public Float getPagamentoRetorno() {
+		public String getPagamentoRetorno() {
 			return pagamentoRetorno;
 		}
 
-		public void setPagamentoRetorno(Float pagamentoRetorno) {
+		public void setPagamentoRetorno(String pagamentoRetorno) {
 			this.pagamentoRetorno = pagamentoRetorno;
 		}
 
@@ -148,6 +162,14 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 
 		public void setObservacao(String observacao) {
 			this.observacao = observacao;
+		}
+
+		public Float getValorRetorno() {
+			return valorRetorno;
+		}
+
+		public void setValorRetorno(Float valorRetorno) {
+			this.valorRetorno = valorRetorno;
 		}
 
 

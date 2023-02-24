@@ -3,8 +3,10 @@ package com.santanatextiles.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,8 +15,12 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="BALJ2_DBF",schema="BAL")
@@ -33,43 +39,60 @@ public class RetornoItemPasseGeral implements Serializable{
 	
 	@Id
 	@Column(name="J2ITEM")
+	@NotEmpty(message="Informe o Código do Item")
 	private String codigoItem;
+
+	@Id
+	@Column(name="J2DATA")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	@NotNull(message="Informe a Data do Retorno")
+	private Date dataRetorno;
+
+	@Id
+	@Column(name="J2HORA")
+	private String horaRetorno;
+	
+	@Column(name="J2QTDE")
+	private Float qtdeRetornada;
 	
 	@Transient
 	private String descricaoItem;
 	
-	@Column(name="J2DATA")
-	private Date dataRetorno;
-
-	@Column(name="J2HORA")
-	private String horaRetorno;
-
 	@Column(name="J2MATR")
+	@NotEmpty(message="Informe a Matricula do Porteiro")
 	private String codigoPorteiro;
-
-	@Transient
-	private String dsPorteiro;
-
-	@Column(name="J2QTDE")
-	private Float qtdeRetornada;
 
 	@Column(name="J2NOTA")
 	private String notaFiscal;
-
-	@Column(name="J2NSERV")
-	private String notaServico;
 
 	@Column(name="J2STAT")
 	private String status;
 
 	@Column(name="J2VURE")
-	private Float pagamentoRetorno;
+	private Float valorRetorno;
+
+	@Column(name="J2PGRT")
+	private String pagamentoRetorno;
 
 	@Column(name="J2OBSV")
+	@Size(max=40,message = "Observação Deve Possuir no Máximo 40 Caracteres")
 	private String observacao;
+
+	@Column(name="J2NSERV")
+	private String notaServico;
+	
+	@Transient
+	private String dsPorteiro;
 	
 	@Transient
 	private String tipoOperacao;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="D0003_ID_LOCALIZACAO", insertable = false, updatable = false),
+	    @JoinColumn(name="j2item", referencedColumnName="D0422_ID_ITEM", insertable = false, updatable = false)
+	})
+	private Item item;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -86,7 +109,7 @@ public class RetornoItemPasseGeral implements Serializable{
 
 	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, String descricaoItem, Date dataRetorno, String horaRetorno,
 			String codigoPorteiro, String dsPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico,
-			String status, Float pagamentoRetorno, String observacao, String tipoOperacao, ItemPasseGeral itemPasseGeral) {
+			String status, Float valorRetorno , String pagamentoRetorno, String observacao, String tipoOperacao, ItemPasseGeral itemPasseGeral) {
 		super();
 		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
@@ -100,6 +123,7 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.notaFiscal = notaFiscal;
 		this.notaServico = notaServico;
 		this.status = status;
+		this.valorRetorno = valorRetorno;
 		this.pagamentoRetorno = pagamentoRetorno;
 		this.observacao = observacao;
 		this.tipoOperacao = tipoOperacao;
@@ -107,8 +131,8 @@ public class RetornoItemPasseGeral implements Serializable{
 	}
 
 	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, Date dataRetorno, String horaRetorno,
-			String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String status, 
-			Float pagamentoRetorno, String observacao) {
+			String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String status, Float valorRetorno, 
+			String pagamentoRetorno, String observacao) {
 		super();
 		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
@@ -120,6 +144,7 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.notaFiscal = notaFiscal;
 		this.notaServico = notaServico;
 		this.status = status;
+		this.valorRetorno = valorRetorno;
 		this.pagamentoRetorno = pagamentoRetorno;
 		this.observacao = observacao;
 		}	
@@ -212,14 +237,6 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.status = status;
 	}
 
-	public Float getPagamentoRetorno() {
-		return pagamentoRetorno;
-	}
-
-	public void setPagamentoRetorno(Float pagamentoRetorno) {
-		this.pagamentoRetorno = pagamentoRetorno;
-	}
-
 	public String getObservacao() {
 		return observacao;
 	}
@@ -245,12 +262,36 @@ public class RetornoItemPasseGeral implements Serializable{
 	}
 
 	
+	public Float getValorRetorno() {
+		return valorRetorno;
+	}
+
+	public void setValorRetorno(Float valorRetorno) {
+		this.valorRetorno = valorRetorno;
+	}
+
+	public String getPagamentoRetorno() {
+		return pagamentoRetorno;
+	}
+	
+	public void setPagamentoRetorno(String pagamentoRetorno) {
+		this.pagamentoRetorno = pagamentoRetorno;
+	}
+
 	public ItemPasseGeral getItemPasseGeral() {
 		return itemPasseGeral;
 	}
 
 	public void setItemPasseGeral(ItemPasseGeral itemPasseGeral) {
 		this.itemPasseGeral = itemPasseGeral;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.santanatextiles.domain.ItemPasseGeral;
 import com.santanatextiles.domain.ItemPasseGeralId;
@@ -23,5 +24,17 @@ public interface ItemPasseGeralRepository extends JpaRepository<ItemPasseGeral ,
 			@Param("numeroPasse") String numeroPasse,
 			@Param("codigoItem") String codigoItem,
 			@Param("valor") Float valor);
+	
+	@Transactional(readOnly=true)
+	@Query(value="SELECT  NVL(SUM(j2.j2qtde),0) as qtderetornada"
+			+ "     FROM  bal.balj2_dbf j2 "
+			+ "    WHERE  j2.idfil = :idfil "
+			+ "           AND j2.j2cod = :numeroPasse "
+			+ "           AND j2.j2item = :codigoItem ", nativeQuery = true)
+	Float atualizaSaldoItem(
+			@Param("idfil") String idfil,
+			@Param("numeroPasse") String numeroPasse,
+			@Param("codigoItem") String codigoItem);
+	
 
 }
