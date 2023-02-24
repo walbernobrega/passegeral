@@ -72,6 +72,17 @@ public class Transacao implements Serializable {
 	public void setGerente(String gerente) {
 		this.gerente = gerente;
 	}
+	
+	public boolean isAprovador(String aprovador) {
+		boolean retorno = false;
+		for(int i=0;i<10;i++){
+			if(this.gerente.substring((i*5),(i*5)+5).equals(aprovador)){
+				retorno = true;
+				break;
+			}
+		}
+		return retorno;
+	}
 
 	@Override
 	public int hashCode() {

@@ -12,6 +12,7 @@ import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.CentroDeCusto;
 import com.santanatextiles.domain.CentroDeCustoId;
 import com.santanatextiles.repositories.CentroDeCustoRepository;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CentroDeCustoService {
@@ -21,6 +22,9 @@ public class CentroDeCustoService {
 	
 	public CentroDeCusto buscar(String idfil , String codigo) {
 		Optional<CentroDeCusto> obj = repo.findById(new CentroDeCustoId(PassegeralApplication._EMPRESA,codigo));
+		if (obj.isEmpty()) {
+			throw new ObjectNotFoundException("Centro de Custo Não Encontrado");
+		}
 		return obj.orElse(null);
 	}
 	

@@ -26,19 +26,9 @@ public class PasseGeralValidator implements ConstraintValidator<PasseGeralValida
 	public boolean isValid(PasseGeralDTO objDTO, ConstraintValidatorContext context) {
 
 		List<FieldMessage> list = new ArrayList<>();
-/*		
-		if (objDTO.getTipo().equals(TipoPasseGeral.PESSOAFISICA.getCod()) && !BR.isValidCPF(objDTO.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj","CPF inválido"));
-		}
 		
-		if (objDTO.getTipo().equals(TipoPasseGeral.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDTO.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj","CNPJ inválido"));
-		}
-		
-		PasseGeral aux = repo.findByEmail(objDTO.getEmail());
-		
-		if (aux != null) {
-			list.add(new FieldMessage("email","Email já cadastrado"));
+		if (objDTO.getItensPasseDTO().isEmpty()) {
+			list.add(new FieldMessage("itensPasseDTO","Informe os Itens do Passe Geral"));
 		}
 
 		for (FieldMessage e : list) {
@@ -46,7 +36,7 @@ public class PasseGeralValidator implements ConstraintValidator<PasseGeralValida
 			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
 					.addConstraintViolation();
 		}
-*/
+
 		return list.isEmpty();
 
 	}

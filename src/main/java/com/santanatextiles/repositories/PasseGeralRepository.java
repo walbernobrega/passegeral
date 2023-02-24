@@ -1,5 +1,6 @@
 package com.santanatextiles.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -34,7 +35,61 @@ public interface PasseGeralRepository extends JpaRepository<PasseGeral , PasseGe
 	@Modifying
 	@Query(value="DELETE FROM bal.balj0_dbf WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
 	int deletaPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse);
+
+	@Modifying
+	@Query(value="UPDATE bal.balj0_dbf SET J0GEREN=:gerente WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int aprovaPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse,@Param("gerente") String gerente);
+
+	@Modifying
+	@Query(value="UPDATE bal.balj0_dbf SET J0GEREN=null WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int desaprovaPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse);
+
+	@Modifying
+	@Query(value="UPDATE bal.balj0_dbf SET "
+			+ "J0DATA=:data,"
+			+ "J0HORA=:hora,"
+			+ "J0PORT=:porteiro,"
+			+ "J0TRAN=:transportadora,"
+			+ "J0PTFN=:tipoTransporte,"
+			+ "J0PLAC=:placa"
+			+ " WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int verificaPasseGeral(
+			@Param("idfil") String idfil,
+			@Param("numeroPasse") String numeroPasse,
+			@Param("data") Date data,
+			@Param("hora") String hora,
+			@Param("porteiro") String porteiro,
+			@Param("transportadora") String transportadora,
+			@Param("tipoTransporte") String tipoTransporte,
+			@Param("placa") String placa
+			);
+
+	@Modifying
+	@Query(value="UPDATE bal.balj0_dbf SET "
+			+ "J0DATA=null,"
+			+ "J0HORA=null,"
+			+ "J0PORT=null,"
+			+ "J0TRAN=null,"
+			+ "J0PLAC=null"
+			+ " WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int desverificaPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse);
+
+	@Modifying
+	@Query(value="UPDATE bal.balj0_dbf SET "
+			+ "J0PRORROGA=:data,"
+			+ "J0MOTIVO=:motivo"
+			+ " WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int prorrogaPasseGeral(
+			@Param("idfil") String idfil,
+			@Param("numeroPasse") String numeroPasse,
+			@Param("data") Date data,
+			@Param("motivo") String motivo
+			);
 	
+	@Modifying
+	@Query(value="UPDATE bal.balj0_dbf SET J0NOTA=:nota WHERE idfil = :idfil AND j0cod = :numeroPasse", nativeQuery = true)
+	int lancaNotaPasseGeral(@Param("idfil") String idfil,@Param("numeroPasse") String numeroPasse,@Param("nota") String nota);
+
 	@Transactional(readOnly=true)
 	@Query(value="SELECT  j0.j0dtin as j0dtin,"
 			+ "        j0.idfil as idfil,"

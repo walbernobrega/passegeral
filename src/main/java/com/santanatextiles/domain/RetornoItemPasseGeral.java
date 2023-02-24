@@ -106,6 +106,23 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.itemPasseGeral = itemPasseGeral;
 	}
 
+	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, Date dataRetorno, String horaRetorno,
+			String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String status, 
+			Float pagamentoRetorno, String observacao) {
+		super();
+		this.idfil = idfil;
+		this.numeroPasse = numeroPasse;
+		this.codigoItem = codigoItem;
+		this.dataRetorno = dataRetorno;
+		this.horaRetorno = horaRetorno;
+		this.codigoPorteiro = codigoPorteiro;
+		this.qtdeRetornada = qtdeRetornada;
+		this.notaFiscal = notaFiscal;
+		this.notaServico = notaServico;
+		this.status = status;
+		this.pagamentoRetorno = pagamentoRetorno;
+		this.observacao = observacao;
+		}	
 	
 	public String getIdfil() {
 		return idfil;

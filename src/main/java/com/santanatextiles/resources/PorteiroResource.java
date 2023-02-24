@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.Porteiro;
 import com.santanatextiles.services.PorteiroService;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/porteiro")
@@ -24,6 +25,10 @@ public class PorteiroResource {
 	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
 		Porteiro obj = service.buscar(PassegeralApplication._EMPRESA , codigo);
+
+		if (obj == null) {
+			throw new ObjectNotFoundException("Porteiro Não Encontrado");
+		}
 		
 		return ResponseEntity.ok().body(obj);
 		

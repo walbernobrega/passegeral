@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.UsuarioPasse;
 import com.santanatextiles.services.UsuarioPasseService;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/usuariopasse")
@@ -24,7 +25,10 @@ public class UsuarioPasseResource {
 	public ResponseEntity<?> find(@PathVariable String matricula) {
 		
 		UsuarioPasse obj = service.buscar(PassegeralApplication._EMPRESA , matricula);
-		
+
+		if (obj == null) {
+			throw new ObjectNotFoundException("Usuário Não Encontrado");
+		}
 		return ResponseEntity.ok().body(obj);
 		
 	}

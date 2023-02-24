@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.Gerente;
 import com.santanatextiles.services.GerenteService;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/gerente")
@@ -24,6 +25,10 @@ public class GerenteResource {
 	public ResponseEntity<?> find(@PathVariable String matricula) {
 		
 		Gerente obj = service.buscar(PassegeralApplication._EMPRESA , matricula);
+		
+		if (obj == null) {
+			throw new ObjectNotFoundException("Gerente Não Encontrado");
+		}
 		
 		return ResponseEntity.ok().body(obj);
 		

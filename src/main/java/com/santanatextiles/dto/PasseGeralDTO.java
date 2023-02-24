@@ -2,6 +2,8 @@ package com.santanatextiles.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santanatextiles.domain.PasseGeral;
@@ -75,6 +77,8 @@ public class PasseGeralDTO implements Serializable {
 	private String status;
 	
 	private String portador;
+	
+	private Set<ItemPasseGeralDTO> itensPasseDTO = new HashSet<>();
 
 	public PasseGeralDTO() {
 		
@@ -109,6 +113,7 @@ public class PasseGeralDTO implements Serializable {
 		this.horaVerificacao = obj.getHoraVerificacao();
 		this.status = obj.getStatus();
 		this.portador = obj.getPortador();
+		this.itensPasseDTO = obj.getItensPasseDTO();
 	}
 
 	public String getIdfil() {
@@ -335,9 +340,13 @@ public class PasseGeralDTO implements Serializable {
 		this.portador = portador;
 	}
 
-	@Override
-	public String toString() {
-		return cdFornCli;
+	public Set<ItemPasseGeralDTO> getItensPasseDTO() {
+		return itensPasseDTO;
 	}
+
+	public void setItensPasse(Set<ItemPasseGeralDTO> itensPasseDTO) {
+		this.itensPasseDTO = itensPasseDTO;
+	}
+
 	
 }

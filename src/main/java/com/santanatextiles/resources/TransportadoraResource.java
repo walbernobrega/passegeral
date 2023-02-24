@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.Transportadora;
 import com.santanatextiles.services.TransportadoraService;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/transportadora")
@@ -24,6 +25,10 @@ public class TransportadoraResource {
 	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
 		Transportadora obj = service.buscar(PassegeralApplication._EMPRESA , codigo);
+
+		if (obj == null) {
+			throw new ObjectNotFoundException("Transportadora Não Encontrada");
+		}
 		
 		return ResponseEntity.ok().body(obj);
 		

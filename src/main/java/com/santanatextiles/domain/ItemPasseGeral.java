@@ -5,7 +5,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.santanatextiles.dto.ItemPasseGeralDTO;
+import com.santanatextiles.dto.RetornoItemPasseGeralDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -47,11 +50,12 @@ public class ItemPasseGeral implements Serializable{
 	private String dsCliFor;
 	
 	@Column(name="J1DATA")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataInclusao;
 	
 	@Column(name="J1HORA")
 	private String horaInclusao;
-	
+
 	@Column(name="J1QTDE")
 	private Float quantidade;
 	
@@ -117,11 +121,41 @@ public class ItemPasseGeral implements Serializable{
 	    @JoinColumn(name="j1item", referencedColumnName="D0422_ID_ITEM", insertable = false, updatable = false)
 	})
 	private Item item;
+	
+	@Transient
+	private Set<RetornoItemPasseGeralDTO> retornoItensPasseDTO = new HashSet<>();
 
 	public ItemPasseGeral() {
 		
 	}
 
+	public ItemPasseGeral(String idfil, String numeroPasse, String codigoItem,
+			String dsItem, Date dataInclusao, String horaInclusao, Float quantidade, String unidMed,
+			Float qtdeRetorno, Float saldo, Float pesoLiquido, Float pesoBruto, Integer numeroVolumes, String obs1,
+			String obs2, String obs3, Float valorUnitario, Float valorOrcado,
+			Set<RetornoItemPasseGeralDTO> retornoItensPasseDTO) {
+		super();
+		this.idfil = idfil;
+		this.numeroPasse = numeroPasse;
+		this.codigoItem = codigoItem;
+		this.dsItem = dsItem;
+		this.dataInclusao = dataInclusao;
+		this.horaInclusao = horaInclusao;
+		this.quantidade = quantidade;
+		this.unidMed = unidMed;
+		this.qtdeRetorno = qtdeRetorno;
+		this.saldo = saldo;
+		this.pesoLiquido = pesoLiquido;
+		this.pesoBruto = pesoBruto;
+		this.numeroVolumes = numeroVolumes;
+		this.obs1 = obs1;
+		this.obs2 = obs2;
+		this.obs3 = obs3;
+		this.valorUnitario = valorUnitario;
+		this.valorOrcado = valorOrcado;
+		this.retornoItensPasseDTO = retornoItensPasseDTO;
+	}
+	
 	public ItemPasseGeral(String idfil, String numeroPasse, String codigoItem,
 			String dsItem, String dsCliFor, Date dataInclusao, String horaInclusao, Float quantidade, String unidMed,
 			Float qtdeRetorno, Float saldo, Float pesoLiquido, Float pesoBruto, Integer numeroVolumes, String obs1,
@@ -353,6 +387,15 @@ public class ItemPasseGeral implements Serializable{
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	
+	public Set<RetornoItemPasseGeralDTO> getRetornoItensPasseDTO() {
+		return retornoItensPasseDTO;
+	}
+
+	public void setRetornoItensPasseDTO(Set<RetornoItemPasseGeralDTO> retornoItensPasseDTO) {
+		this.retornoItensPasseDTO = retornoItensPasseDTO;
 	}
 
 	@Override

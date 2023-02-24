@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.Fornecedor;
 import com.santanatextiles.services.FornecedorService;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/fornecedor")
@@ -24,6 +25,10 @@ public class FornecedorResource {
 	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
 		Fornecedor obj = service.buscar(PassegeralApplication._EMPRESA , codigo);
+		
+		if (obj == null) {
+			throw new ObjectNotFoundException("Fornecedor Não Encontrado");
+		}
 		
 		return ResponseEntity.ok().body(obj);
 		

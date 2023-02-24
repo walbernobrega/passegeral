@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.Cliente;
 import com.santanatextiles.services.ClienteService;
+import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/cliente")
@@ -24,6 +25,10 @@ public class ClienteResource {
 	public ResponseEntity<?> find(@PathVariable String codigo) {
 		
 		Cliente obj = service.buscar(PassegeralApplication._EMPRESA , codigo);
+		
+		if (obj == null) {
+			throw new ObjectNotFoundException("Cliente Não Encontrado");
+		}
 		
 		return ResponseEntity.ok().body(obj);
 		

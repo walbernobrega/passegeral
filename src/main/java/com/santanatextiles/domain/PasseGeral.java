@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santanatextiles.domain.enums.SimNao;
 import com.santanatextiles.domain.enums.TipoDestino;
 import com.santanatextiles.domain.enums.TipoPasse;
+import com.santanatextiles.dto.ItemPasseGeralDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -215,6 +217,9 @@ public class PasseGeral implements Serializable{
 	})
 	private Fornecedor fornecedor;
 	
+	@Transient
+	private Set<ItemPasseGeralDTO> itensPasseDTO = new HashSet<>();
+	
 	public PasseGeral() {
 		
 	}
@@ -246,7 +251,8 @@ public class PasseGeral implements Serializable{
 					String motivo,
 					String horaVerificacao,
 					String status,
-					String portador
+					String portador,
+					Set<ItemPasseGeralDTO> itensPasseDTO
 					) {
 		super();
 		this.idfil = idfil;
@@ -277,6 +283,7 @@ public class PasseGeral implements Serializable{
 		this.horaVerificacao = horaVerificacao;
 		this.status = status;
 		this.portador = portador;
+		this.itensPasseDTO = itensPasseDTO;
 	}
 	
 	public PasseGeral(String idfil, String retorno, String numeroPasse, String obs1, String obs2, String obs3,
@@ -695,6 +702,14 @@ public class PasseGeral implements Serializable{
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+	
+	public Set<ItemPasseGeralDTO> getItensPasseDTO() {
+		return itensPasseDTO;
+	}
+
+	public void setItensPasseDTO(Set<ItemPasseGeralDTO> itensPasseDTO) {
+		this.itensPasseDTO = itensPasseDTO;
 	}
 
 	@Override
