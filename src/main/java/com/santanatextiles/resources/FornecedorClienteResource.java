@@ -13,53 +13,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.PassegeralApplication;
-import com.santanatextiles.domain.Porteiro;
-import com.santanatextiles.services.PorteiroService;
-import com.santanatextiles.services.exceptions.ObjectNotFoundException;
+import com.santanatextiles.domain.FornecedorCliente;
+import com.santanatextiles.services.FornecedorClienteService;
 
 @RestController
-@RequestMapping(value="/porteiro")
-public class PorteiroResource {
+@RequestMapping(value="/fornecedorcliente")
+public class FornecedorClienteResource {
 
 	@Autowired
-	private PorteiroService service; 
+	private FornecedorClienteService service; 
 	
 	@CrossOrigin
-	@RequestMapping(value="/{codigo}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable String codigo) {
+	@RequestMapping(value="/{entidade}/{codigo}", method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable String entidade,@PathVariable String codigo) {
 		
-		Porteiro obj = service.buscar(PassegeralApplication._EMPRESA , codigo);
-
-		if (obj == null) {
-			throw new ObjectNotFoundException("Porteiro Não Encontrado");
-		}
+		FornecedorCliente obj = service.buscar(PassegeralApplication._EMPRESA , entidade , codigo);
 		
 		return ResponseEntity.ok().body(obj);
 		
 	}
 	
 	/*
-	localhost:8082/porteiro?linesPerPage=3&page=1&direction=ASC&orderBy=nome
+	localhost:8082/fornecedorcliente?linesPerPage=3&page=1&direction=ASC&orderBy=nome
 	*/
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET)
-	public  ResponseEntity<Page<Porteiro>> findAll(
+	public  ResponseEntity<Page<FornecedorCliente>> findAll(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
 			@RequestParam(value="orderBy", defaultValue="descricao") String orderBy, 
 			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Porteiro> lista = service.listagemGeral(page, linesPerPage, orderBy, direction);
+		Page<FornecedorCliente> lista = service.listagemGeral(page, linesPerPage, orderBy, direction);
 		return ResponseEntity.ok().body(lista);
 	}
 
 	/*
-	localhost:8082/porteiro/nome/administracao
+	localhost:8082/fornecedorcliente/nome/administracao/?linesPerPage=3&page=1&direction=ASC&orderBy=nome
 	*/
 	@CrossOrigin
 	@RequestMapping(value="/nome/{nome}",method=RequestMethod.GET)
-	public  ResponseEntity<List<Porteiro>> procuraPorDescricao(
+	public  ResponseEntity<List<FornecedorCliente>> procuraPorDescricao(
 			@PathVariable String nome) {
-		List<Porteiro> lista = service.procuraPorNome(PassegeralApplication._EMPRESA, nome);
+		List<FornecedorCliente> lista = service.procuraPorNome(PassegeralApplication._EMPRESA, nome);
 		return ResponseEntity.ok().body(lista);
 	}
 	

@@ -1,9 +1,14 @@
 package com.santanatextiles.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,7 +54,7 @@ public class ItemPasseGeral implements Serializable{
 	private String dsCliFor;
 	
 	@Column(name="J1DATA")
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	private Date dataInclusao;
 	
 	@Column(name="J1HORA")
@@ -104,7 +109,7 @@ public class ItemPasseGeral implements Serializable{
 	private String operacao;
 	
 	@OneToMany(mappedBy="itemPasseGeral", cascade=CascadeType.ALL)
-	private Set<RetornoItemPasseGeral> retornoItemPasse = new HashSet<>();
+	private List<RetornoItemPasseGeral> retornoItemPasse = new ArrayList<>();
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -115,15 +120,16 @@ public class ItemPasseGeral implements Serializable{
 	private PasseGeral passeGeral;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	@Fetch(FetchMode.JOIN)
 	@JoinColumns({
-	    @JoinColumn(name="idfil", referencedColumnName="D0003_ID_LOCALIZACAO", insertable = false, updatable = false),
+	    @JoinColumn(name="idfil", referencedColumnName="D0002_ID_FIL", insertable = false, updatable = false),
 	    @JoinColumn(name="j1item", referencedColumnName="D0422_ID_ITEM", insertable = false, updatable = false)
 	})
 	private Item item;
 	
 	@Transient
 	private Set<RetornoItemPasseGeralDTO> retornoItensPasseDTO = new HashSet<>();
-
+	
 	public ItemPasseGeral() {
 		
 	}
@@ -188,10 +194,6 @@ public class ItemPasseGeral implements Serializable{
 		this.item = item;
 	}
 
-	public Set<RetornoItemPasseGeral> getRetornoItemPasse() {
-		return retornoItemPasse;
-	}
-	
 	public String getIdfil() {
 		return idfil;
 	}
@@ -200,7 +202,11 @@ public class ItemPasseGeral implements Serializable{
 		this.idfil = idfil;
 	}
 
-	public void setRetornoItemPasse(Set<RetornoItemPasseGeral> retornoItemPasse) {
+	public List<RetornoItemPasseGeral> getRetornoItemPasse() {
+		return retornoItemPasse;
+	}
+
+	public void setRetornoItemPasse(List<RetornoItemPasseGeral> retornoItemPasse) {
 		this.retornoItemPasse = retornoItemPasse;
 	}
 

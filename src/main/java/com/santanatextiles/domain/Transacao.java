@@ -28,17 +28,21 @@ public class Transacao implements Serializable {
 	
 	@Column(name="F6GEREN")
 	private String gerente;
+	
+	@Column(name="F6CLIFO")
+	private String clifo;
 
 	public Transacao() {
 		
 	}
 
-	public Transacao(String idfil, String codigo, String descricao, String gerente) {
+	public Transacao(String idfil, String codigo, String descricao, String gerente, String clifo ) {
 		super();
 		this.idfil = idfil;
 		this.codigo = codigo;
 		this.descricao = descricao;
 		this.gerente = gerente;
+		this.clifo = clifo;
 	}
 	
 	public String getIdfil() {
@@ -59,6 +63,14 @@ public class Transacao implements Serializable {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public String getClifo() {
+		return clifo;
+	}
+
+	public void setClifo(String clifo) {
+		this.clifo = clifo;
 	}
 
 	public void setDescricao(String descricao) {

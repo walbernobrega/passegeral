@@ -16,6 +16,7 @@ public class PasseGeralDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty
 	private String idfil;
 
 	private String numeroPasse;
@@ -28,15 +29,19 @@ public class PasseGeralDTO implements Serializable {
 	
 	private String obs3;
 	
+	@NotEmpty
 	private String entradaSaida;
 	
+	@NotEmpty
 	private String cdCCusto;
 	
+	@NotEmpty
 	private String cdAutor;
 	
 	@NotEmpty(message="Cliente/Fornecedor é Obrigatório")
 	private String cdFornCli;
 	
+	@NotEmpty
 	private String tpFornCli;
 	
 	@NotEmpty(message="Transação é Obrigatória")
@@ -58,16 +63,16 @@ public class PasseGeralDTO implements Serializable {
 	
 	private String numDocumento;
 	
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	private Date dataVerificacao;
 
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	private Date dataInclusao;
 	
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	private Date dataPrevisaoRetorno;
 	
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	private Date dataProrrogacao;
 	
 	private String motivo;
@@ -98,7 +103,7 @@ public class PasseGeralDTO implements Serializable {
 		this.tpFornCli = obj.getTpFornCli().getCodigo();
 		this.cdTransacao = obj.getCdTransacao();
 		this.notaFiscal = obj.getNotaFiscal();
-		this.tipoTransporte = obj.getTipoTransporte();
+		this.tipoTransporte = obj.getTipoTransporte().getCodigo();
 		this.placa = obj.getPlaca();
 		this.cdTransportador = obj.getCdTransportador();
 		this.cdPorteiro = obj.getCdPorteiro();

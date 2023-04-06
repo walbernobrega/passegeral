@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,7 +45,7 @@ public class RetornoItemPasseGeral implements Serializable{
 
 	@Id
 	@Column(name="J2DATA")
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	@NotNull(message="Informe a Data do Retorno")
 	private Date dataRetorno;
 
@@ -80,6 +81,12 @@ public class RetornoItemPasseGeral implements Serializable{
 
 	@Column(name="J2NSERV")
 	private String notaServico;
+
+	@Column(name="J2NVENDA")
+	private String notaVenda;
+	
+	@Column(name="J2VUVEN")
+	private Float valorNotaVenda;
 	
 	@Transient
 	private String dsPorteiro;
@@ -93,7 +100,7 @@ public class RetornoItemPasseGeral implements Serializable{
 	    @JoinColumn(name="j2item", referencedColumnName="D0422_ID_ITEM", insertable = false, updatable = false)
 	})
 	private Item item;
-
+	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
@@ -102,14 +109,22 @@ public class RetornoItemPasseGeral implements Serializable{
 	    @JoinColumn(name="j2item", referencedColumnName="j1item", insertable = false, updatable = false)
 	})
 	private ItemPasseGeral itemPasseGeral;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j2matr", referencedColumnName="e5cod", insertable = false, updatable = false)
+	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Porteiro porteiro;
 	
 	public RetornoItemPasseGeral() {
 		
 	}
 
 	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, String descricaoItem, Date dataRetorno, String horaRetorno,
-			String codigoPorteiro, String dsPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico,
-			String status, Float valorRetorno , String pagamentoRetorno, String observacao, String tipoOperacao, ItemPasseGeral itemPasseGeral) {
+			String codigoPorteiro, String dsPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String notaVenda, Float valorNotaVenda,
+			String status, Float valorRetorno , String pagamentoRetorno, String observacao, String tipoOperacao, ItemPasseGeral itemPasseGeral, Porteiro porteiro) {
 		super();
 		this.idfil = idfil;
 		this.numeroPasse = numeroPasse;
@@ -122,16 +137,19 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.qtdeRetornada = qtdeRetornada;
 		this.notaFiscal = notaFiscal;
 		this.notaServico = notaServico;
+		this.notaVenda = notaVenda;
+		this.valorNotaVenda = valorNotaVenda;
 		this.status = status;
 		this.valorRetorno = valorRetorno;
 		this.pagamentoRetorno = pagamentoRetorno;
 		this.observacao = observacao;
 		this.tipoOperacao = tipoOperacao;
 		this.itemPasseGeral = itemPasseGeral;
+		this.porteiro = porteiro;
 	}
 
 	public RetornoItemPasseGeral(String idfil, String numeroPasse, String codigoItem, Date dataRetorno, String horaRetorno,
-			String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String status, Float valorRetorno, 
+			String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String notaVenda, Float valorNotaVenda, String status, Float valorRetorno, 
 			String pagamentoRetorno, String observacao) {
 		super();
 		this.idfil = idfil;
@@ -143,6 +161,8 @@ public class RetornoItemPasseGeral implements Serializable{
 		this.qtdeRetornada = qtdeRetornada;
 		this.notaFiscal = notaFiscal;
 		this.notaServico = notaServico;
+		this.notaVenda = notaVenda;
+		this.valorNotaVenda = valorNotaVenda;
 		this.status = status;
 		this.valorRetorno = valorRetorno;
 		this.pagamentoRetorno = pagamentoRetorno;
@@ -282,12 +302,36 @@ public class RetornoItemPasseGeral implements Serializable{
 		return itemPasseGeral;
 	}
 
+	public String getNotaVenda() {
+		return notaVenda;
+	}
+
+	public void setNotaVenda(String notaVenda) {
+		this.notaVenda = notaVenda;
+	}
+
+	public Float getValorNotaVenda() {
+		return valorNotaVenda;
+	}
+
+	public void setValorNotaVenda(Float valorNotaVenda) {
+		this.valorNotaVenda = valorNotaVenda;
+	}
+
 	public void setItemPasseGeral(ItemPasseGeral itemPasseGeral) {
 		this.itemPasseGeral = itemPasseGeral;
 	}
 
 	public Item getItem() {
 		return item;
+	}
+
+	public Porteiro getPorteiro() {
+		return porteiro;
+	}
+
+	public void setPorteiro(Porteiro porteiro) {
+		this.porteiro = porteiro;
 	}
 
 	public void setItem(Item item) {

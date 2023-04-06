@@ -41,6 +41,7 @@ public class RetornoItemPasseGeralService {
 		
 		obj.setIdfil(PassegeralApplication._EMPRESA);
 		obj.setNumeroPasse(novoCodigo);
+		obj.setCodigoItem(codigoItem);
 		obj.setDataRetorno(dataRetorno);
 		obj.setHoraRetorno(horaRetorno);
 		
@@ -67,16 +68,25 @@ public class RetornoItemPasseGeralService {
 		
 	}
 	
+	public int deletaRetornoItem(String idfil , String numeroPasse , String codigoItem) {
+		
+		return repo.deletaRetornoItem(idfil, numeroPasse, codigoItem);
+		
+	}
+	
 	private List<String> verificaEntidades(RetornoItemPasseGeral obj) {
 		this.msg.clear();
 		try {
 			if(obj.getCodigoItem() != null && ("111111|999999").indexOf(obj.getCodigoItem()) == -1) {
-				Item item = itemService.buscar(Long.parseLong(obj.getCodigoItem())); 
+				Item item = itemService.buscar(Long.parseLong(obj.getCodigoItem()));
+				obj.setItem(item);
+/*				
 				if ( item == null) {
 					this.msg.add("Item Não Cadastrado");
 				} else {
 					obj.setItem(item);
 				};
+*/				
 			}
 		} 
 		catch (Exception e) {
@@ -96,6 +106,8 @@ public class RetornoItemPasseGeralService {
 		objDTO.getQtdeRetornada(),
 		objDTO.getNotaFiscal(),
 		objDTO.getNotaServico(),
+		objDTO.getNotaVenda(),
+		objDTO.getValorNotaVenda(),
 		objDTO.getStatus(),
 		objDTO.getValorRetorno(),
 		objDTO.getPagamentoRetorno(),

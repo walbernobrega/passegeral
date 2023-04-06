@@ -31,6 +31,10 @@ public class Item implements Serializable{
 	@Column(name="D0422_ID_ITEM")
 	private Long codigo;
 	
+	@Id
+	@Column(name="D0002_ID_FIL")
+	private Long idfil;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumns({
 	    @JoinColumn(name="D0003_ID_LOCALIZACAO", referencedColumnName="D0003_ID_LOCALIZACAO", insertable = false, updatable = false),
@@ -42,12 +46,13 @@ public class Item implements Serializable{
 		
 	}
 
-	public Item(Long localizacao, Long codMaterial , Long codigo, String descricao, Material material) {
+	public Item(Long localizacao, Long codMaterial , Long codigo, Long idfil , String descricao, Material material) {
 		super();
 		this.localizacao = localizacao;
 		this.codigo = codigo;
 		this.codMaterial = codMaterial;
 		this.material = material;
+		this.idfil = idfil;
 	}
 
 	
@@ -67,7 +72,14 @@ public class Item implements Serializable{
 		this.codigo = codigo;
 	}
 
-	
+	public Long getIdfil() {
+		return idfil;
+	}
+
+	public void setIdfil(Long idfil) {
+		this.idfil = idfil;
+	}
+
 	public Long getCodMaterial() {
 		return codMaterial;
 	}

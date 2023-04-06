@@ -1,5 +1,7 @@
 package com.santanatextiles.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +15,6 @@ public interface ClienteRepository extends JpaRepository<Cliente , ClienteId> {
 	
 	Page<Cliente> findByIdfil(PageRequest pageRequest, String idfil);
 	
-	Page<Cliente> findByIdfilAndDescricaoContainingIgnoreCase(PageRequest pageRequest, String idfil, String descricao);
+	List<Cliente> findByIdfilAndDescricaoContainingIgnoreCaseOrderByDescricao(String idfil, String descricao);
 	
 }

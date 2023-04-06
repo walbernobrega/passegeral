@@ -2,53 +2,42 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import com.santanatextiles.domain.enums.TipoUsuario;
 
-@Entity
-@Table(name="SPCC3_DBF",schema="SPC")
-@IdClass(GerenteId.class)
-public class Gerente implements Serializable {
-	
+public class Usuario implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="IDFIL")
 	private String idfil;
 	
-	@Id
-	@Column(name="C3MATR")
-	private String matricula;
-	
-	@Column(name="C3APELI")
+	private String codigo;
+
 	private String login;
-	
-	@Column(name="C3NOME")
+
 	private String nome;
 
-	@Column(name="C3SENHA")
 	private String senha;
 
-	@Column(name="C3PAS")
-	private String prorrogador;
+	private boolean prorrogador;
 	
-	public Gerente() {
+	private String tipoUsuario;
+	
+	public Usuario() {
 		
 	}
 
-	public Gerente(String idfil, String matricula, String nome, String login, String senha, String prorrogador) {
+	public Usuario(String idfil, String codigo , String login, String nome, String senha, boolean prorrogador, String tipoUsuario) {
 		super();
 		this.idfil = idfil;
-		this.matricula = matricula;
-		this.nome = nome;
+		this.codigo = codigo;
 		this.login = login;
+		this.nome = nome;
 		this.senha = senha;
 		this.prorrogador = prorrogador;
+		this.tipoUsuario = tipoUsuario;
+		
 	}
-
+	
 	public String getIdfil() {
 		return idfil;
 	}
@@ -56,13 +45,13 @@ public class Gerente implements Serializable {
 	public void setIdfil(String idfil) {
 		this.idfil = idfil;
 	}
-	
-	public String getMatricula() {
-		return matricula;
+
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getLogin() {
@@ -86,23 +75,31 @@ public class Gerente implements Serializable {
 	}
 
 	public void setSenha(String senha) {
-		this.senha= senha;
+		this.senha = senha;
 	}
-	
-	public String getProrrogador() {
+
+	public boolean isProrrogador() {
 		return prorrogador;
 	}
 
-	public void setProrrogador(String prorrogador) {
+	public void setProrrogador(boolean prorrogador) {
 		this.prorrogador = prorrogador;
 	}
 
+	public TipoUsuario getTipoUsuario() {
+		return TipoUsuario.toEnum(tipoUsuario);
+	}
+
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario.getCodigo();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idfil == null) ? 0 : idfil.hashCode());
-		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		return result;
 	}
 
@@ -114,18 +111,20 @@ public class Gerente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Gerente other = (Gerente) obj;
+		Usuario other = (Usuario) obj;
 		if (idfil == null) {
 			if (other.idfil != null)
 				return false;
 		} else if (!idfil.equals(other.idfil))
 			return false;
-		if (matricula == null) {
-			if (other.matricula != null)
+		if (login == null) {
+			if (other.login != null)
 				return false;
-		} else if (!matricula.equals(other.matricula))
+		} else if (!login.equals(other.login))
 			return false;
 		return true;
 	}
+
+	
 
 }

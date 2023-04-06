@@ -19,7 +19,7 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 		@NotEmpty(message="Código do Item é Obrigatório")
 		private String codigoItem;
 		
-		@JsonFormat(pattern="dd/MM/yyyy")
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 		@NotEmpty(message="Informe a Data do Retorno")
 		private Date dataRetorno;
 
@@ -34,6 +34,10 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 		private String notaFiscal;
 
 		private String notaServico;
+		
+		private String notaVenda;
+		
+		private Float valorNotaVenda;
 
 		private String status;
 
@@ -49,7 +53,7 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 		}
 
 		public RetornoItemPasseGeralDTO(String idfil, String numeroPasse, String codigoItem, Date dataRetorno, String horaRetorno,
-				String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico,
+				String codigoPorteiro, Float qtdeRetornada, String notaFiscal, String notaServico, String notaVenda, Float valorNotaVenda,
 				String status, Float valorRetorno , String pagamentoRetorno, String observacao) {
 			super();
 			this.idfil = idfil;
@@ -61,6 +65,8 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 			this.qtdeRetornada = qtdeRetornada;
 			this.notaFiscal = notaFiscal;
 			this.notaServico = notaServico;
+			this.notaVenda = notaVenda;
+			this.valorNotaVenda = valorNotaVenda;
 			this.status = status;
 			this.setValorRetorno(valorRetorno);
 			this.pagamentoRetorno = pagamentoRetorno;
@@ -68,6 +74,22 @@ public class RetornoItemPasseGeralDTO implements Serializable{
 		}
 
 		
+		public String getNotaVenda() {
+			return notaVenda;
+		}
+
+		public void setNotaVenda(String notaVenda) {
+			this.notaVenda = notaVenda;
+		}
+
+		public Float getValorNotaVenda() {
+			return valorNotaVenda;
+		}
+
+		public void setValorNotaVenda(Float valorNotaVenda) {
+			this.valorNotaVenda = valorNotaVenda;
+		}
+
 		public String getIdfil() {
 			return idfil;
 		}

@@ -5,10 +5,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.Formula;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.santanatextiles.domain.enums.SimNao;
 import com.santanatextiles.domain.enums.TipoDestino;
 import com.santanatextiles.domain.enums.TipoPasse;
+import com.santanatextiles.domain.enums.TipoTransporte;
 import com.santanatextiles.dto.ItemPasseGeralDTO;
 
 import jakarta.persistence.CascadeType;
@@ -117,27 +121,19 @@ public class PasseGeral implements Serializable{
 	@Column(name="J0DOCT")
 	private String numDocumento;
 	
-	/*
-	 	Se Quiser a data formatada
-		@JsonFormat(pattern="dd/MM/yyyy")
-	*/ 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	@Column(name="J0DATA")
 	private Date dataVerificacao;
 
-	/*
- 		Se Quiser a data formatada
-		@JsonFormat(pattern="dd/MM/yyyy")
-	*/ 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	@Column(name="J0DTIN")
 	private Date dataInclusao;
 	
-	/*
- 		Se Quiser a data formatada
-		@JsonFormat(pattern="dd/MM/yyyy")
-	*/ 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	@Column(name="J0RETORNO")
 	private Date dataPrevisaoRetorno;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	@Column(name="J0PRORROGA")
 	private Date dataProrrogacao;
 	
@@ -169,6 +165,7 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
 	    @JoinColumn(name="j0tran", referencedColumnName="b2cod", insertable = false, updatable = false)
 	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Transportadora transportadora;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -192,6 +189,7 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
 	    @JoinColumn(name="j0geren", referencedColumnName="c3matr", insertable = false, updatable = false)
 	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Gerente gerente;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -199,6 +197,7 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
 	    @JoinColumn(name="j0port", referencedColumnName="e5cod", insertable = false, updatable = false)
 	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Porteiro porteiro;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -216,9 +215,21 @@ public class PasseGeral implements Serializable{
 	    @JoinColumn(name="j0tpdest", referencedColumnName="b2tpentida", insertable = false, updatable = false),
 	})
 	private Fornecedor fornecedor;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({
+	    @JoinColumn(name="idfil", referencedColumnName="idfil", insertable = false, updatable = false),
+	    @JoinColumn(name="j0tpdest", referencedColumnName="entidade", insertable = false, updatable = false),
+	    @JoinColumn(name="j0dest", referencedColumnName="codigo", insertable = false, updatable = false),
+	})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private FornecedorCliente fornecedorCliente;
 	
 	@Transient
 	private Set<ItemPasseGeralDTO> itensPasseDTO = new HashSet<>();
+	
+	@Formula("bal.status_passe(j0cod,idfil)")
+	private String dsStatus;
 	
 	public PasseGeral() {
 		
@@ -294,7 +305,7 @@ public class PasseGeral implements Serializable{
 			String numDocumento, Date dataVerificacao, Date dataInclusao, Date dataPrevisaoRetorno,
 			Date dataProrrogacao, String motivo, String horaVerificacao, String status, String portador,
 			Transacao transacao, Transportadora transportadora, CentroDeCusto centroDeCusto, UsuarioPasse usuarioPasse,
-			Gerente gerente, Porteiro porteiro,Cliente cliente, Fornecedor fornecedor) {
+			Gerente gerente, Porteiro porteiro,Cliente cliente, Fornecedor fornecedor, FornecedorCliente fornecedorCliente) {
 		super();
 		this.idfil = idfil;
 		this.retorno = retorno;
@@ -340,6 +351,7 @@ public class PasseGeral implements Serializable{
 		this.porteiro = porteiro;
 		this.cliente = cliente;
 		this.fornecedor = fornecedor;
+		this.fornecedorCliente = fornecedorCliente;
 	}
 
 	public String getIdfil() {
@@ -453,6 +465,14 @@ public class PasseGeral implements Serializable{
 	public void setTpFornCli(TipoDestino tpFornCli) {
 		this.tpFornCli = tpFornCli.getCodigo();
 	}
+	
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getCdTransacao() {
 		return cdTransacao;
@@ -486,14 +506,20 @@ public class PasseGeral implements Serializable{
 		this.notaFiscal = notaFiscal;
 	}
 
-	public String getTipoTransporte() {
-		return tipoTransporte;
+	public TipoTransporte getTipoTransporte() {
+		if (this.tipoTransporte == null || (!this.tipoTransporte.equals("N") && 
+			!this.tipoTransporte.equals("Y") && 
+			!this.tipoTransporte.equals("F") &&
+			!this.tipoTransporte.equals("P"))) {
+			this.tipoTransporte = "N";
+		}
+		return TipoTransporte.toEnum(tipoTransporte);
 	}
 
-	public void setTipoTransporte(String tipoTransporte) {
-		this.tipoTransporte = tipoTransporte;
+	public void setTipoTransporte(TipoTransporte tipoTransporte) {
+		this.tipoTransporte = tipoTransporte.getCodigo();
 	}
-
+	
 	public String getPlaca() {
 		return placa;
 	}
@@ -614,14 +640,6 @@ public class PasseGeral implements Serializable{
 		this.horaVerificacao = horaVerificacao;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getPortador() {
 		return portador;
 	}
@@ -702,6 +720,18 @@ public class PasseGeral implements Serializable{
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+
+	public FornecedorCliente getFornecedorCliente() {
+		return fornecedorCliente;
+	}
+
+	public void setFornecedorCliente(FornecedorCliente fornecedorCliente) {
+		this.fornecedorCliente = fornecedorCliente;
+	}
+	
+	public String getDsStatus() {
+		return dsStatus;
 	}
 	
 	public Set<ItemPasseGeralDTO> getItensPasseDTO() {

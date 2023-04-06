@@ -25,7 +25,7 @@ public class ItemPasseGeralDTO implements Serializable {
 	
 	private String dsItem;
 	
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
 	private Date dataInclusao;
 	
 	private String horaInclusao;

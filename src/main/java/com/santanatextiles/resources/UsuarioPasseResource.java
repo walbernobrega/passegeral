@@ -1,8 +1,11 @@
 package com.santanatextiles.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +24,7 @@ public class UsuarioPasseResource {
 	@Autowired
 	private UsuarioPasseService service; 
 	
+	@CrossOrigin
 	@RequestMapping(value="/{matricula}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable String matricula) {
 		
@@ -36,6 +40,7 @@ public class UsuarioPasseResource {
 	/*
 	localhost:8082/usuariopasse?linesPerPage=3&page=1&direction=ASC&orderBy=nome
 	*/
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET)
 	public  ResponseEntity<Page<UsuarioPasse>> findAll(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
@@ -47,17 +52,14 @@ public class UsuarioPasseResource {
 	}
 
 	/*
-	localhost:8082/usuariopasse/nome/administracao/?linesPerPage=3&page=1&direction=ASC&orderBy=nome
+	localhost:8082/usuariopasse/nome/dalton
 	*/
 	
+	@CrossOrigin
 	@RequestMapping(value="/nome/{nome}",method=RequestMethod.GET)
-	public  ResponseEntity<Page<UsuarioPasse>> procuraPorNome(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction,
+	public  ResponseEntity<List<UsuarioPasse>> procuraPorNome(
 			@PathVariable String nome) {
-		Page<UsuarioPasse> lista = service.procuraPorNome(page, linesPerPage, orderBy, direction, PassegeralApplication._EMPRESA, nome);
+		List<UsuarioPasse> lista = service.procuraPorNome(PassegeralApplication._EMPRESA, nome);
 		return ResponseEntity.ok().body(lista);
 	}
 	

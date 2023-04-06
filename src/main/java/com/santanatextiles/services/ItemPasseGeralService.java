@@ -94,6 +94,32 @@ public class ItemPasseGeralService {
 		
 	}
 
+	public ItemPasseGeral retornaItem(ItemPasseGeral obj) {
+		List<String> msg = verificaEntidades(obj);
+		if (msg.isEmpty()) {
+			buscar(PassegeralApplication._EMPRESA,obj.getNumeroPasse(), obj.getCdItem());
+		} else {
+			throw new DataIntegrityException(String.join(",", msg)); 
+		}
+		
+		retornoItemPasseGeralService.deletaRetornoItem(PassegeralApplication._EMPRESA,obj.getNumeroPasse(),obj.getCodigoItem());
+		
+		Iterator<RetornoItemPasseGeralDTO> it = obj.getRetornoItensPasseDTO().iterator();
+		
+		while (it.hasNext()) {
+			RetornoItemPasseGeral retornoItemPasseGeral = retornoItemPasseGeralService.fromDTO(it.next());
+			retornoItemPasseGeralService.insert(retornoItemPasseGeral,obj.getNumeroPasse(), obj.getCdItem() , retornoItemPasseGeral.getDataRetorno() , retornoItemPasseGeral.getHoraRetorno());
+		}
+		
+		Float totalRetornado = repo.atualizaSaldoItem(obj.getIdfil(), obj.getNumeroPasse(), obj.getCdItem()); 
+		
+		obj.setQtdeRetorno(totalRetornado);
+		obj.setSaldo(obj.getQuantidade() - totalRetornado);
+		
+		return repo.save(obj);
+		
+	}
+	
 	@Transactional
 	public void delete(String numeroPasse, String codigoItem) {
 		try {
@@ -107,13 +133,16 @@ public class ItemPasseGeralService {
 	private List<String> verificaEntidades(ItemPasseGeral obj) {
 		this.msg.clear();
 		try {
-			if(obj.getCdItem() != null && ("111111|999999").indexOf(obj.getCdItem()) == -1) {
-				Item item = itemService.buscar(Long.parseLong(obj.getCdItem())); 
+			if(obj.getCdItem() != null && Long.parseLong(obj.getCdItem()) <= 999900) {
+				Item item = itemService.buscar(Long.parseLong(obj.getCdItem()));
+				obj.setItem(item);
+				/*
 				if ( item == null) {
 					this.msg.add("Item Não Cadastrado");
 				} else {
 					obj.setItem(item);
 				};
+				*/
 			}
 		} 
 		catch (Exception e) {

@@ -26,6 +26,15 @@ public interface RetornoItemPasseGeralRepository extends JpaRepository<RetornoIt
 			@Param("idfil") String idfil,
 			@Param("numeroPasse") String numeroPasse);
 	
+	@Modifying
+	@Query(value="DELETE FROM bal.balj2_dbf "
+			+ "WHERE idfil = :idfil "
+			+ "AND j2cod = :numeroPasse "
+			+ "AND j2item = :codigoItem ", nativeQuery = true)
+	int deletaRetornoItem(
+			@Param("idfil") String idfil,
+			@Param("numeroPasse") String numeroPasse,
+			@Param("codigoItem") String codigoItem);
 	
 
 }

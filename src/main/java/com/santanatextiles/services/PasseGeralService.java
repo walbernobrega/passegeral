@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.domain.CentroDeCusto;
 import com.santanatextiles.domain.Cliente;
 import com.santanatextiles.domain.Fornecedor;
+import com.santanatextiles.domain.FornecedorCliente;
 import com.santanatextiles.domain.Gerente;
 import com.santanatextiles.domain.ItemPasseGeral;
 import com.santanatextiles.domain.PasseGeral;
@@ -28,10 +30,10 @@ import com.santanatextiles.domain.Transportadora;
 import com.santanatextiles.domain.UsuarioPasse;
 import com.santanatextiles.domain.enums.TipoDestino;
 import com.santanatextiles.domain.enums.TipoPasse;
+import com.santanatextiles.domain.enums.TipoTransporte;
 import com.santanatextiles.dto.ItemPasseGeralDTO;
 import com.santanatextiles.dto.PasseGeralDTO;
 import com.santanatextiles.repositories.PasseGeralRepository;
-import com.santanatextiles.services.exceptions.DataIntegrityException;
 import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 
@@ -52,6 +54,9 @@ public class PasseGeralService {
 
 	@Autowired
 	private FornecedorService fornecedorService;
+	
+	@Autowired
+	private FornecedorClienteService fornecedorClienteService;
 
 	@Autowired
 	private PorteiroService porteiroService;
@@ -75,6 +80,11 @@ public class PasseGeralService {
 		return obj.orElse(null);
 	}
 	
+	public PasseGeral buscaPasseItem(String idfil , String numeroPasse, String codigoItem) {
+		PasseGeral obj = repo.buscaPasseItem(idfil, numeroPasse, codigoItem);
+		return obj;
+	}
+	
 	@Transactional
 	public PasseGeral insert(PasseGeral obj) {
 		
@@ -82,10 +92,8 @@ public class PasseGeralService {
 
 		verificaEntidades(obj);
 		
-		if (this.msg.isEmpty()) {
-			buscar(PassegeralApplication._EMPRESA,obj.getNumeroPasse());
-		} else {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+		if (!this.msg.isEmpty()) {
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		obj.setIdfil(PassegeralApplication._EMPRESA);
@@ -114,6 +122,8 @@ public class PasseGeralService {
 			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
+		repo.deletaItensPasseGeral(PassegeralApplication._EMPRESA,obj.getNumeroPasse());
+		
 		Iterator<ItemPasseGeralDTO> it = obj.getItensPasseDTO().iterator();
 		
 		while (it.hasNext()) {
@@ -125,6 +135,32 @@ public class PasseGeralService {
 		
 	}
 
+	@Transactional
+	public PasseGeral retornaPasseGeral(PasseGeral obj, String codigoItem) {
+		verificaEntidades(obj);
+		if (this.msg.isEmpty()) {
+			if (buscar(PassegeralApplication._EMPRESA,obj.getNumeroPasse()) == null) {
+				this.msg.add("Passe : "+obj.getNumeroPasse()+" Não Existe");
+			}
+		}
+		
+		if (!this.msg.isEmpty()) {
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
+		}
+		
+		Iterator<ItemPasseGeralDTO> it = obj.getItensPasseDTO().iterator();
+		
+		while (it.hasNext()) {
+			ItemPasseGeral itemPasseGeral = itemPasseGeralService.fromDTO(it.next());
+			if (itemPasseGeral.getCodigoItem().equals(codigoItem) ) {
+				itemPasseGeralService.retornaItem(itemPasseGeral);
+			}
+		}
+		
+		return repo.save(obj);
+		
+	}
+	
 	@Transactional
 	public PasseGeral aprovaPasseGeral(String numeroPasse, String gerente) {
 		
@@ -141,11 +177,11 @@ public class PasseGeralService {
 		PasseGeral obj = buscar(PassegeralApplication._EMPRESA,numeroPasse);
 		
 		if (obj.getGerente() != null && obj.getGerente().getMatricula() != null && !"00000".equals(obj.getGerente().getMatricula())) {
-			this.msg.add("Passe Já Está Autorizado Por: " + obj.getGerente().getNome());
+			this.msg.add("Passe Já Está Aprovado Por: " + obj.getGerente().getNome());
 		}
 		
 		if (!this.msg.isEmpty()) {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		Gerente aprovador = gerenteService.buscar(PassegeralApplication._EMPRESA,gerente);		
@@ -174,7 +210,7 @@ public class PasseGeralService {
 		}
 		
 		if (!this.msg.isEmpty()) {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		repo.desaprovaPasseGeral(obj.getIdfil(),obj.getNumeroPasse()); 
@@ -222,7 +258,7 @@ public class PasseGeralService {
 		}
 		
 		if (!this.msg.isEmpty()) {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		Porteiro porteiroBean = porteiroService.buscar(PassegeralApplication._EMPRESA,porteiro);		
@@ -230,11 +266,11 @@ public class PasseGeralService {
 		
 		obj.setPorteiro(porteiroBean);
 		obj.setTransportadora(transportadoraBean);
-		obj.setTipoTransporte(tipoTransporte);
+		obj.setTipoTransporte(TipoTransporte.toEnum(tipoTransporte));
 		obj.setPlaca(placa);
 		obj.setDataVerificacao(data);
 		obj.setHoraVerificacao(hora);
-		
+			
 		repo.verificaPasseGeral(
 				obj.getIdfil(),
 				obj.getNumeroPasse(),
@@ -263,7 +299,7 @@ public class PasseGeralService {
 		PasseGeral obj = buscar(PassegeralApplication._EMPRESA,numeroPasse);
 		
 		if (!this.msg.isEmpty()) {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		repo.desverificaPasseGeral(obj.getIdfil(),obj.getNumeroPasse()); 
@@ -291,7 +327,7 @@ public class PasseGeralService {
 		PasseGeral obj = buscar(PassegeralApplication._EMPRESA,numeroPasse);
 		
 		if (!this.msg.isEmpty()) {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		obj.setDataProrrogacao(data);
@@ -326,7 +362,7 @@ public class PasseGeralService {
 		PasseGeral obj = buscar(PassegeralApplication._EMPRESA,numeroPasse);
 		
 		if (!this.msg.isEmpty()) {
-			throw new DataIntegrityException(String.join(",", this.msg)); 
+			throw new ObjectNotFoundException(String.join(",", this.msg)); 
 		}
 		
 		obj.setNotaFiscal(nota);
@@ -369,6 +405,13 @@ public class PasseGeralService {
 				};
 			}
 			if(obj.getCdFornCli() != null) {
+				FornecedorCliente fornecedorCliente = fornecedorClienteService.buscar(PassegeralApplication._EMPRESA,obj.getTpFornCli().getCodigo(),obj.getCdFornCli());
+				if ( fornecedorCliente == null) {
+					this.msg.add("Fornecedor/Cliente Não Cadastrado");
+				} else {
+					obj.setFornecedorCliente(fornecedorCliente);
+				};
+				
 				if (obj.getTpFornCli().equals(TipoDestino.CLIENTE)) {
 					Cliente cli = clienteService.buscar(PassegeralApplication._EMPRESA,obj.getCdFornCli());
 					if ( cli == null) {
@@ -387,7 +430,7 @@ public class PasseGeralService {
 				}
 			}
 			if(obj.getCdAutor() != null) {
-				UsuarioPasse usuarioPasse = usuarioPasseService.buscar(PassegeralApplication._EMPRESA,obj.getCdAprovador()); 
+				UsuarioPasse usuarioPasse = usuarioPasseService.buscar(PassegeralApplication._EMPRESA,obj.getCdAutor()); 
 				if ( usuarioPasse == null) {
 					this.msg.add("Usuário Não Cadastrado");
 				} else {
@@ -426,7 +469,7 @@ public class PasseGeralService {
 			repo.deletaPasseGeral(PassegeralApplication._EMPRESA,numeroPasse);
 		}
 		catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Erro de Violação de Integridade");
+			throw new ObjectNotFoundException("Erro de Violação de Integridade");
 		}
 	}
 	
@@ -488,4 +531,70 @@ public class PasseGeralService {
 				);
 	}
 
+	public List<PasseGeral> pesquisaPasses(String idfil, Map<String , Object> dados)  throws Exception {
+		
+		String dataInclusaoInicial = dados.get("dataInclusaoInicial").toString();
+		String dataInclusaoFinal = dados.get("dataInclusaoFinal").toString();
+
+		String dataPrevisaoRetornoInicial = dados.get("dataPrevisaoRetornoInicial").toString();
+		String dataPrevisaoRetornoFinal = dados.get("dataPrevisaoRetornoFinal").toString();
+		
+		String dataRetornoInicial = dados.get("dataRetornoInicial").toString();
+		String dataRetornoFinal = dados.get("dataRetornoFinal").toString();
+
+		String dataVerificacaoInicial = dados.get("dataVerificacaoInicial").toString();
+		String dataVerificacaoFinal = dados.get("dataVerificacaoFinal").toString();
+		
+		String numeroPasse = dados.get("numeroPasse").toString();
+		String cdAutor =  dados.get("cdAutor").toString();
+
+		String entradaSaida = dados.get("entradaSaida").toString();
+		String retorno = dados.get("retorno").toString();
+		String status = dados.get("status").toString().trim();
+		String numDocumento = dados.get("numDocumento").toString();
+		String notaFiscal = dados.get("notaFiscal").toString();
+		String notaFiscalRetorno = dados.get("notaFiscalRetorno").toString();
+		String notaFiscalVenda = dados.get("notaFiscalVenda").toString();
+		String notaFiscalServico = dados.get("notaFiscalServico").toString();
+	    String cdPorteiro = dados.get("cdPorteiro").toString();
+	    String cdTransacao = dados.get("cdTransacao").toString();
+	    String cdFornCli = dados.get("cdFornCli").toString();
+	    String tpFornCli = dados.get("tpFornCli").toString();
+	    String cdCCusto = dados.get("cdCCusto").toString();
+	    String obsPasse = dados.get("obsPasse").toString().toUpperCase();
+	    String obsItem = dados.get("obsItem").toString().toUpperCase();
+	    
+	    System.out.println("Retorno: " + retorno + status);
+	    
+		return repo.pesquisaPasses(
+				idfil,
+			    numeroPasse,
+			    cdAutor,
+			    entradaSaida,
+			    retorno,
+			    status,
+			    numDocumento,
+			    notaFiscal,
+			    notaFiscalRetorno,
+			    notaFiscalVenda,
+			    notaFiscalServico,
+			    dataInclusaoInicial,
+			    dataInclusaoFinal,
+			    dataPrevisaoRetornoInicial,
+			    dataPrevisaoRetornoFinal,
+			    dataRetornoInicial,
+			    dataRetornoFinal,
+			    dataVerificacaoInicial,
+			    dataVerificacaoFinal,
+			    cdPorteiro,
+			    cdTransacao,
+			    cdFornCli,
+			    tpFornCli,
+			    cdCCusto,
+			    obsPasse,
+			    obsItem
+			);
+		
+	}
+	
 }

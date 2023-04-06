@@ -1,5 +1,6 @@
 package com.santanatextiles.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,8 @@ public class PorteiroService {
 		return repo.findByIdfil(pageRequest,PassegeralApplication._EMPRESA);
 	}
 
-	public Page<Porteiro> procuraPorNome(Integer page, Integer linesPerPage, String orderBy, String direction, String idfil, String nome) {
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findByIdfilAndNomeContainingIgnoreCase(pageRequest, idfil, nome);
+	public List<Porteiro> procuraPorNome(String idfil, String nome) {
+		return repo.findByIdfilAndNomeContainingIgnoreCase(idfil, nome);
 	}
 	
 	

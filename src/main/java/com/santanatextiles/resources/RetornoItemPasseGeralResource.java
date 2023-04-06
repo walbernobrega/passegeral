@@ -2,6 +2,7 @@ package com.santanatextiles.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ public class RetornoItemPasseGeralResource {
 	@Autowired
 	private RetornoItemPasseGeralService service; 
 	
+	@CrossOrigin
 	@RequestMapping(value="/{numeroPasse}/{codigoItem}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable String numeroPasse,@PathVariable String codigoItem) {
 		
