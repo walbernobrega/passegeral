@@ -1,10 +1,18 @@
 package com.santanatextiles.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.santanatextiles.domain.enums.PerfilUsuario;
 import com.santanatextiles.domain.enums.TipoUsuario;
 
-public class Usuario implements Serializable{
+public class Usuario implements UserDetails,Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,11 +30,16 @@ public class Usuario implements Serializable{
 	
 	private String tipoUsuario;
 	
+	private int perfil;
+	
+	private Collection<? extends GrantedAuthority> authorities;
+	
 	public Usuario() {
 		
 	}
 
-	public Usuario(String idfil, String codigo , String login, String nome, String senha, boolean prorrogador, String tipoUsuario) {
+	public Usuario(String idfil, String codigo , String login, String nome, String senha, boolean prorrogador, String tipoUsuario, int perfil,
+			Set<PerfilUsuario> perfis) {
 		super();
 		this.idfil = idfil;
 		this.codigo = codigo;
@@ -35,6 +48,8 @@ public class Usuario implements Serializable{
 		this.senha = senha;
 		this.prorrogador = prorrogador;
 		this.tipoUsuario = tipoUsuario;
+		this.perfil = perfil;
+		this.authorities = perfis.stream().map( x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
 		
 	}
 	
@@ -94,6 +109,15 @@ public class Usuario implements Serializable{
 		this.tipoUsuario = tipoUsuario.getCodigo();
 	}
 	
+	public PerfilUsuario getPerfil() {
+		return PerfilUsuario.toEnum(perfil);
+	}
+
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil.getCodigo();
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -122,6 +146,41 @@ public class Usuario implements Serializable{
 				return false;
 		} else if (!login.equals(other.login))
 			return false;
+		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	@Override
+	public String getPassword() {
+		return senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return codigo;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
 		return true;
 	}
 

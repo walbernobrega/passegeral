@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,6 +49,7 @@ public class ItemPasseGeral implements Serializable{
     private String codigoItem;
 	
 	@Column(name="J1DESC")
+	@Length(min=1, max=40)
 	private String dsItem;
 	
 	@Transient

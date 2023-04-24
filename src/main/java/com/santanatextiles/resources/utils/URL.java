@@ -5,7 +5,13 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 public class URL {
+	
+	@Autowired
+	private static final BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 	
 	public static String decodeParam(String s) {
 		try {
@@ -37,6 +43,14 @@ public class URL {
 			return false;
 		}
 		return true;
+	}
+	
+	public static String senhaBCryptografada(String senha) {
+		
+		String senhaDescriptografada = descriptografaSenha(senha);
+		
+		return pe.encode(senhaDescriptografada); 
+		
 	}
 	
 	public static String criptografaSenha(String senhaRecebida) {

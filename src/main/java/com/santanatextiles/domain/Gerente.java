@@ -2,6 +2,8 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import com.santanatextiles.domain.enums.PerfilUsuario;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -35,6 +37,9 @@ public class Gerente implements Serializable {
 	@Column(name="C3PAS")
 	private String prorrogador;
 	
+	@Column(name="C3PERFIL")
+	private int perfil;
+
 	public Gerente() {
 		
 	}
@@ -95,6 +100,14 @@ public class Gerente implements Serializable {
 
 	public void setProrrogador(String prorrogador) {
 		this.prorrogador = prorrogador;
+	}
+	
+	public PerfilUsuario getPerfil() {
+		return PerfilUsuario.toEnum(perfil);
+	}
+
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil.getCodigo();
 	}
 
 	@Override

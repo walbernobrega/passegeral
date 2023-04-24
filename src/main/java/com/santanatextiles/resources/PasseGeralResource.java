@@ -28,6 +28,11 @@ import jakarta.validation.Valid;
 @RequestMapping(value="/passegeral")
 public class PasseGeralResource {
 
+	/*
+	 * Se quiser permitir acesso pelo perfil do usuário acrescenter a seguinte anotação antes da declaração do método
+	 * 	@PreAuthorize("hasAnyRole('ADMIN')")
+	 */
+	
 	@Autowired
 	private PasseGeralService service; 
 	
@@ -53,10 +58,10 @@ public class PasseGeralResource {
 	
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<String> insert(@Valid @RequestBody PasseGeralDTO objDTO) {
+	public ResponseEntity<?> insert(@Valid @RequestBody PasseGeralDTO objDTO) {
 		PasseGeral obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
-		return ResponseEntity.status(HttpStatus.OK).body("Código do Passe: " + obj.getNumeroPasse());
+		return ResponseEntity.status(HttpStatus.OK).body(obj);
 	}
 
 	@CrossOrigin
@@ -103,7 +108,7 @@ public class PasseGeralResource {
 	localhost:8082/passegeral/{numeroPasse}/desaprovar
 	*/
 	@CrossOrigin
-	@RequestMapping(value="{numeroPasse}/desaprovar",method=RequestMethod.GET)
+	@RequestMapping(value="{numeroPasse}/desaprovar",method=RequestMethod.PUT)
 	public ResponseEntity<String> dasaprovarPasseGeral(@PathVariable String numeroPasse) {
 		PasseGeral obj = service.desaprovaPasseGeral(numeroPasse);
 		return ResponseEntity.status(HttpStatus.OK).body("Passe Desaprovado: " + obj.getNumeroPasse());

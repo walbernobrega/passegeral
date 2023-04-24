@@ -2,6 +2,8 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import com.santanatextiles.domain.enums.PerfilUsuario;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -31,6 +33,9 @@ public class UsuarioPasse implements Serializable {
 
 	@Column(name="D4SENHA")
 	private String senha;
+
+	@Column(name="D4PERFIL")
+	private int perfil;
 	
 	public UsuarioPasse() {
 		
@@ -84,6 +89,14 @@ public class UsuarioPasse implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public PerfilUsuario getPerfil() {
+		return PerfilUsuario.toEnum(perfil);
+	}
+
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil.getCodigo();
 	}
 
 	@Override

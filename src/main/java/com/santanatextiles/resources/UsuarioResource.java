@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.santanatextiles.PassegeralApplication;
 import com.santanatextiles.services.UsuarioService;
 
 @RestController
@@ -34,6 +35,8 @@ public class UsuarioResource {
 		String idfil = dados.get("idfil").toString();
 		String codigo = dados.get("codigo").toString();
 		String senha= dados.get("senha").toString();
+		
+		PassegeralApplication._EMPRESA = idfil;
 
 		return ResponseEntity.ok().body(usuarioService.verificaLogin(codigo, senha, idfil));
 		

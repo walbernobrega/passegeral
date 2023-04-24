@@ -2,6 +2,8 @@ package com.santanatextiles.domain;
 
 import java.io.Serializable;
 
+import com.santanatextiles.domain.enums.PerfilUsuario;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,6 +31,9 @@ public class Porteiro implements Serializable {
 	@Column(name="E5SENHA")
 	private String senha;
 
+	@Column(name="E5PERFIL")
+	private int perfil;
+	
 	public Porteiro() {
 		
 	}
@@ -73,6 +78,15 @@ public class Porteiro implements Serializable {
 		this.senha= senha;
 	}
 
+	public PerfilUsuario getPerfil() {
+		return PerfilUsuario.toEnum(perfil);
+	}
+
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil.getCodigo();
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

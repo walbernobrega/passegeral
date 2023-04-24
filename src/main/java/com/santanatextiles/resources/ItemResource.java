@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santanatextiles.domain.Item;
 import com.santanatextiles.services.ItemService;
-import com.santanatextiles.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/item")

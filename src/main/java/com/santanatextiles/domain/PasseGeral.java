@@ -508,7 +508,7 @@ public class PasseGeral implements Serializable{
 
 	public TipoTransporte getTipoTransporte() {
 		if (this.tipoTransporte == null || (!this.tipoTransporte.equals("N") && 
-			!this.tipoTransporte.equals("Y") && 
+			!this.tipoTransporte.equals("T") && 
 			!this.tipoTransporte.equals("F") &&
 			!this.tipoTransporte.equals("P"))) {
 			this.tipoTransporte = "N";

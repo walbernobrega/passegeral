@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santanatextiles.domain.ItemPasseGeral;
 
@@ -23,6 +25,7 @@ public class ItemPasseGeralDTO implements Serializable {
 	@NotEmpty(message="Código do Item é Obrigatório")
 	private String codigoItem;
 	
+	@Length(min=1, max=40)
 	private String dsItem;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR",timezone="Brazil/East")
